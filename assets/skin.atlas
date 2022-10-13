@@ -1,26 +1,19 @@
 skin.png
-size: 210, 620
+size: 1092, 90
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-roflan1
+button
   rotate: false
   xy: 0, 0
-  size: 210, 207
-  orig: 210, 207
+  size: 520, 82
+  orig: 520, 82
   offset: 0, 0
   index: -1
-roflan2
+buttonActive
   rotate: false
-  xy: 0, 207
-  size: 210, 207
-  orig: 210, 207
-  offset: 0, 0
-  index: -1
-roflan3
-  rotate: false
-  xy: 0, 414
-  size: 210, 206
-  orig: 210, 206
+  xy: 520, 0
+  size: 572, 90
+  orig: 572, 90
   offset: 0, 0
   index: -1

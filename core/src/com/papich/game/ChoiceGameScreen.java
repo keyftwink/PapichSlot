@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -20,9 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-
-
-public class MainMenuScreen implements Screen {
+public class ChoiceGameScreen implements Screen {
 
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
@@ -32,18 +29,15 @@ public class MainMenuScreen implements Screen {
     private OrthographicCamera camera;
     private TextureAtlas atlas;
     protected Skin skin;
-    public Texture texture;
 
-    public MainMenuScreen()
-
+    public ChoiceGameScreen()
     {
         atlas = new TextureAtlas("skin.atlas");
-        texture = new Texture(Gdx.files.internal("MainMenu.png"));
         skin = new Skin();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("myFont.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size=30;
-        Color color = Color.YELLOW;
+        Color color = Color.BLACK;
         parameter.color = color;
         font = generator.generateFont(parameter);
         font.setColor(Color.BLACK);
@@ -51,7 +45,6 @@ public class MainMenuScreen implements Screen {
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
         textButtonStyle.up = skin.getDrawable("button");
-
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
@@ -69,35 +62,35 @@ public class MainMenuScreen implements Screen {
         Table mainTable = new Table();
         mainTable.setFillParent(true);
         mainTable.top();
-        TextButton playButton = new TextButton("PLAY", textButtonStyle);
-        TextButton optionsButton = new TextButton("SETTINGS", textButtonStyle);
-        TextButton exitButton = new TextButton("EXIT", textButtonStyle);
+        TextButton blackjackButton = new TextButton("BLACKJACK", textButtonStyle);
+        TextButton roflanDropButton = new TextButton("ROFLANDROP", textButtonStyle);
+        TextButton backButton = new TextButton("BACK", textButtonStyle);
 
-        playButton.addListener(new ClickListener(){
+
+        blackjackButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new ChoiceGameScreen());
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new BlackjackScreen());
             }
         });
-        optionsButton.addListener(new ClickListener(){
+        roflanDropButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new SettingsScreen());
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new RoflanDropScreen());
             }
         });
-        exitButton.addListener(new ClickListener(){
+        backButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
             }
         });
 
-        mainTable.add(playButton);
-        mainTable.center();
+        mainTable.add(blackjackButton);
         mainTable.row();
-        mainTable.add(optionsButton);
+        mainTable.add(roflanDropButton);
         mainTable.row();
-        mainTable.add(exitButton);
+        mainTable.add(backButton);
 
         stage.addActor(mainTable);
     }
@@ -107,12 +100,6 @@ public class MainMenuScreen implements Screen {
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        camera.update();
-        batch.begin();
-        batch.draw(texture, 0, 0);
-        batch.end();
-
         stage.act();
         stage.draw();
     }
@@ -120,7 +107,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight /2, 0);
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight  - 200, 0);
         camera.update();
     }
 

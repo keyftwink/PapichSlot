@@ -3,21 +3,21 @@ size: 210, 620
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-roflan№1
+roflan1
   rotate: false
   xy: 0, 0
   size: 210, 207
   orig: 210, 207
   offset: 0, 0
   index: -1
-roflan№2
+roflan2
   rotate: false
   xy: 0, 207
   size: 210, 207
   orig: 210, 207
   offset: 0, 0
   index: -1
-roflan№3
+roflan3
   rotate: false
   xy: 0, 414
   size: 210, 206

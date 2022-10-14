@@ -95,7 +95,7 @@ public class BlackjackScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight - 200, 0);
+        camera.position.set(1920 / 2, 1080/2, 0);
         camera.update();
     }
 

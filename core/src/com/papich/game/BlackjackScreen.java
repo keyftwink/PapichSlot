@@ -38,7 +38,7 @@ public class BlackjackScreen implements Screen {
     public static int money = 10000;
     public static int bet;
     String[] cards = new String[]{"2 spade","2 club","2 diamond","2 heart","3 spade","3 club","3 diamond","3 heart","4 spade","4 club","4 diamond","4 heart","5 spade","5 club","5 diamond","5 heart","6 spade","6 club","6 diamond","6 heart","7 spade","7 club","7 diamond","7 heart","8 spade","8 club","8 diamond","8 heart","9 spade","9 club","9 diamond","9 heart","10 spade","10 club","10 diamond","10 heart","J spade","J club","J diamond","J heart","Q spade","Q club","Q diamond","Q heart","K spade","K club","K diamond","K heart","A spade","A club","A diamond","A heart"};
-    private SpriteBatch batch;
+    public SpriteBatch batch;
     protected Stage stage;
     private Viewport viewport;
     private OrthographicCamera camera;
@@ -110,10 +110,17 @@ public class BlackjackScreen implements Screen {
 
         moneyFont.draw(batch, String.valueOf(money),1500,100);
 
-        batch.draw(cardsTextures.get("2 diamond"),0,0);
+        for (int i = 0; i < playerDeck.size();i++){
+            batch.draw(cardsTextures.get(playerDeck.get(i)),90 + i*10,40);
+        }
+
         batch.end();
         stage.act();
         stage.draw();
+    }
+    public static void addCard(ArrayList<String> playingDeck){
+        playingDeck.add(deck[cardsCounter]);
+        cardsCounter++;
     }
 
     @Override
@@ -125,7 +132,6 @@ public class BlackjackScreen implements Screen {
 
     @Override
     public void pause() {
-
     }
 
     @Override

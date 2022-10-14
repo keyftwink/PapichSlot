@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BlackjackScreen implements Screen {
 
@@ -44,10 +45,16 @@ public class BlackjackScreen implements Screen {
     private TextureAtlas atlas;
     protected Skin skin;
     public Texture blackJackTable;
+    HashMap<String, Texture> cardsTextures = new HashMap<>();
 
     public BlackjackScreen() {
         atlas = new TextureAtlas("skin.atlas");
         skin = new Skin();
+
+        for(int i = 0; i < cards.length;i++){
+            cardsTextures.put(cards[i],new Texture(Gdx.files.internal("BlackJackAssets/Cards/"+cards[i]+".png")));
+        }
+
         blackJackTable = new Texture(Gdx.files.internal("BlackJackAssets/blackjacktable.jpg"));
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("myFont.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -102,6 +109,8 @@ public class BlackjackScreen implements Screen {
         batch.draw(blackJackTable,0,0);
 
         moneyFont.draw(batch, String.valueOf(money),1500,100);
+
+        batch.draw(cardsTextures.get("2 diamond"),0,0);
         batch.end();
         stage.act();
         stage.draw();

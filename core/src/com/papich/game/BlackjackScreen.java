@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class BlackjackScreen implements Screen {
 
@@ -45,15 +46,19 @@ public class BlackjackScreen implements Screen {
     private TextureAtlas atlas;
     protected Skin skin;
     public Texture blackJackTable;
+    public Texture cardshirt;
     HashMap<String, Texture> cardsTextures = new HashMap<>();
 
     public BlackjackScreen() {
         atlas = new TextureAtlas("skin.atlas");
         skin = new Skin();
+        cardshirt = new Texture(Gdx.files.internal("BlackJackAssets/cardshirt.jpg"));
 
         for(int i = 0; i < cards.length;i++){
             cardsTextures.put(cards[i],new Texture(Gdx.files.internal("BlackJackAssets/Cards/"+cards[i]+".png")));
         }
+
+        deck = BlackjackUtils.shuffleCards(cards);
 
         blackJackTable = new Texture(Gdx.files.internal("BlackJackAssets/blackjacktable.jpg"));
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("myFont.ttf"));
@@ -93,9 +98,20 @@ public class BlackjackScreen implements Screen {
             }
         });
 
+        TextButton makeBet = new TextButton("1000", textButtonStyle);
+        makeBet.setPosition(-1000,40);
+        makeBet.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                addCard(playerDeck);
+                addCard(playerDeck);
+                addCard(croupierDeck);
+                addCard(croupierDeck);
+            }
+        });
 
         mainTable.row();
-        mainTable.add(backButton);
+        mainTable.add(backButton,makeBet);
 
         stage.addActor(mainTable);
     }
@@ -111,7 +127,16 @@ public class BlackjackScreen implements Screen {
         moneyFont.draw(batch, String.valueOf(money),1500,100);
 
         for (int i = 0; i < playerDeck.size();i++){
-            batch.draw(cardsTextures.get(playerDeck.get(i)),90 + i*10,40);
+            batch.draw(cardsTextures.get(playerDeck.get(i)),100+i*100,40);
+        }
+        if(isPlayerReady){
+            for (int i = 0; i < playerDeck.size();i++){
+                batch.draw(cardsTextures.get(croupierDeck.get(i)),100+i*200,1000);
+            }
+        }
+        if(!isPlayerReady&&croupierDeck.size()!=0){
+            batch.draw(cardsTextures.get(croupierDeck.get(0)),300,500);
+            batch.draw(cardshirt,300,500);
         }
 
         batch.end();
@@ -148,6 +173,22 @@ public class BlackjackScreen implements Screen {
     public void dispose() {
         skin.dispose();
         atlas.dispose();
+    }
+}
+abstract class BlackjackUtils {
+    public static String[] shuffleCards(String[] cards){
+        String[] deck = new String[52];
+        Random rnd = new Random();
+        for(int i=0;i< cards.length;i++){
+            deck[i] = cards[rnd.nextInt(52)];
+            for(int j = 0; j < deck.length;j++){
+                if(deck[i].equals(deck[j]) && i!=j){
+                    i--;
+                    break;
+                }
+            }
+        }
+        return deck;
     }
 }
 

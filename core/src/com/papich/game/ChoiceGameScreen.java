@@ -18,6 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.papich.game.slot.screen.LoaderScreen;
+import com.papich.game.slot.screen.SlotScreen;
 
 public class ChoiceGameScreen implements Screen {
 
@@ -29,9 +31,12 @@ public class ChoiceGameScreen implements Screen {
     private OrthographicCamera camera;
     private TextureAtlas atlas;
     protected Skin skin;
+    private final Game game;
 
-    public ChoiceGameScreen()
+    public ChoiceGameScreen(Game game)
     {
+        super();
+        this.game = game;
         atlas = new TextureAtlas("skin.atlas");
         skin = new Skin();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("myFont.ttf"));
@@ -64,31 +69,40 @@ public class ChoiceGameScreen implements Screen {
         mainTable.top();
         TextButton blackjackButton = new TextButton("BLACKJACK", textButtonStyle);
         TextButton roflanDropButton = new TextButton("ROFLANDROP", textButtonStyle);
+        TextButton slotsButton = new TextButton("SLOTS", textButtonStyle);
         TextButton backButton = new TextButton("BACK", textButtonStyle);
 
 
         blackjackButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new BlackjackScreen());
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new BlackjackScreen(game));
             }
         });
         roflanDropButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new RoflanDropScreen());
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new RoflanDropScreen(game));
+            }
+        });
+        slotsButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new LoaderScreen(game));
             }
         });
         backButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
             }
         });
 
         mainTable.add(blackjackButton);
         mainTable.row();
         mainTable.add(roflanDropButton);
+        mainTable.row();
+        mainTable.add(slotsButton);
         mainTable.row();
         mainTable.add(backButton);
 

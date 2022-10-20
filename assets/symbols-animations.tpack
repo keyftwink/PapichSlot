@@ -1,0 +1,82 @@
+symbols-animations.png
+size: 628, 471
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+symbol_animation-0
+  rotate: false
+  xy: 1, 1
+  size: 155, 155
+  orig: 155, 155
+  offset: 0, 0
+  index: -1
+symbol_animation-1
+  rotate: false
+  xy: 1, 158
+  size: 155, 155
+  orig: 155, 155
+  offset: 0, 0
+  index: -1
+symbol_animation-2
+  rotate: false
+  xy: 158, 1
+  size: 155, 155
+  orig: 155, 155
+  offset: 0, 0
+  index: -1
+symbol_animation-3
+  rotate: false
+  xy: 158, 158
+  size: 155, 155
+  orig: 155, 155
+  offset: 0, 0
+  index: -1
+symbol_animation-4
+  rotate: false
+  xy: 158, 315
+  size: 155, 155
+  orig: 155, 155
+  offset: 0, 0
+  index: -1
+symbol_animation-5
+  rotate: false
+  xy: 315, 1
+  size: 155, 155
+  orig: 155, 155
+  offset: 0, 0
+  index: -1
+symbol_animation-6
+  rotate: false
+  xy: 315, 158
+  size: 155, 155
+  orig: 155, 155
+  offset: 0, 0
+  index: -1
+symbol_animation-7
+  rotate: false
+  xy: 315, 315
+  size: 155, 155
+  orig: 155, 155
+  offset: 0, 0
+  index: -1
+symbol_animation-8
+  rotate: false
+  xy: 472, 1
+  size: 155, 155
+  orig: 155, 155
+  offset: 0, 0
+  index: -1
+symbol_animation-9
+  rotate: false
+  xy: 472, 158
+  size: 155, 155
+  orig: 155, 155
+  offset: 0, 0
+  index: -1
+symbol_animation-10
+  rotate: false
+  xy: 1, 315
+  size: 155, 155
+  orig: 155, 155
+  offset: 0, 0
+  index: -1

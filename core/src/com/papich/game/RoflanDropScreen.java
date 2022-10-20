@@ -29,8 +29,12 @@ public class RoflanDropScreen implements Screen {
     private OrthographicCamera camera;
     private TextureAtlas atlas;
     protected Skin skin;
+    private final Game game;
 
-    public RoflanDropScreen() {
+    public RoflanDropScreen(Game game) {
+        super();
+        this.game = game;
+
         atlas = new TextureAtlas("skin.atlas");
         skin = new Skin();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("myFont.ttf"));
@@ -66,7 +70,7 @@ public class RoflanDropScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
             }
         });
 

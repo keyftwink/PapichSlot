@@ -41,9 +41,11 @@ public class MainMenuScreen implements Screen {
     Vector2 touchPos2D = new Vector2();
     public TextButton playButton;
     public TextButton exitButton;
-    public MainMenuScreen()
+    private final Game game;
 
-    {
+    public MainMenuScreen(Game game) {
+        super();
+        this.game = game;
         atlas = new TextureAtlas("skin.atlas");
         texture = new Texture(Gdx.files.internal("MainMenu.png"));
         skin = new Skin();
@@ -93,7 +95,7 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new ChoiceGameScreen());
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new ChoiceGameScreen(game));
             }
         });
         exitButton.addListener(new ClickListener(){
@@ -106,8 +108,6 @@ public class MainMenuScreen implements Screen {
         table1.add(playButton);
         table1.center();
         table1.row();
-
-
         table2.add(exitButton);
         table2.top();
         table2.row();

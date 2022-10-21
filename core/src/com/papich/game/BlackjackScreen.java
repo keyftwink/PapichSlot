@@ -48,8 +48,13 @@ public class BlackjackScreen implements Screen {
     public Texture blackJackTable;
     public Texture cardshirt;
     HashMap<String, Texture> cardsTextures = new HashMap<>();
+    private final Game game;
 
-    public BlackjackScreen() {
+    public BlackjackScreen(Game game) {
+        super();
+        this.game = game;
+        }
+
         atlas = new TextureAtlas("skin.atlas");
         skin = new Skin();
         cardshirt = new Texture(Gdx.files.internal("BlackJackAssets/cardshirt.jpg"));
@@ -94,7 +99,7 @@ public class BlackjackScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
             }
         });
 

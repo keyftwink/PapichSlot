@@ -53,7 +53,7 @@ public class BlackjackScreen implements Screen {
     public BlackjackScreen(Game game) {
         super();
         this.game = game;
-        }
+       
 
         atlas = new TextureAtlas("skin.atlas");
         skin = new Skin();

@@ -37,6 +37,8 @@ public class BlackjackScreen implements Screen {
     Table betTable;
     Table choiceTable;
 
+
+
     public static boolean isCroupierReady;
     public static boolean isPlayerReady;
     public static String[] deck = new String[52];
@@ -95,6 +97,7 @@ public class BlackjackScreen implements Screen {
     public void startGame(){
         croupierDeck = new ArrayList<>();
         playerDeck = new ArrayList<>();
+        cardsCounter = 0;
         addCard(playerDeck);
         addCard(playerDeck);
         addCard(croupierDeck);
@@ -103,7 +106,6 @@ public class BlackjackScreen implements Screen {
         choiceTable.setVisible(true);
         isPlayerReady = false;
         isCroupierReady = false;
-        cardsCounter=0;
     }
 
 
@@ -212,18 +214,20 @@ public class BlackjackScreen implements Screen {
         moneyFont.draw(batch, String.valueOf(money),1500,100);
 
         for (int i = 0; i < playerDeck.size();i++){
-            batch.draw(cardsTextures.get(playerDeck.get(i)),100+i*100,40);
+            batch.draw(cardsTextures.get(playerDeck.get(i)),600+i*100,40);
         }
         if(isPlayerReady){
             for (int i = 0; i < croupierDeck.size();i++){
-                batch.draw(cardsTextures.get(croupierDeck.get(i)),100+i*200,500);
+                batch.draw(cardsTextures.get(croupierDeck.get(i)),600+i*100,800);
             }
         }
         if(!isPlayerReady&&croupierDeck.size()!=0){
-            batch.draw(cardsTextures.get(croupierDeck.get(0)),300,500);
-            batch.draw(cardshirt,300,500);
+            batch.draw(cardsTextures.get(croupierDeck.get(0)),700,800);
+            batch.draw(cardshirt,800,800);
         }
-        if(Integer.parseInt(BlackjackUtils.cardCount(playerDeck))>21){
+        if(!isPlayerReady&&Integer.parseInt(BlackjackUtils.cardCount(playerDeck))>21){
+            isCroupierReady = true;
+            isPlayerReady = true;
             lose();
         }
         if(isPlayerReady && frameCounter/60 == 2&&!isCroupierReady){
@@ -234,7 +238,10 @@ public class BlackjackScreen implements Screen {
         if(isPlayerReady&&!isCroupierReady){
             frameCounter++;
         }
-        if(isPlayerReady&&Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))>=17) {
+        if(isCroupierReady&& Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))>21){
+            win();
+        }
+        if(!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))>=17) {
             isCroupierReady=true;
             checkCards();
         }
@@ -285,9 +292,9 @@ public class BlackjackScreen implements Screen {
         int playerCardSum = Integer.parseInt(BlackjackUtils.cardCount(playerDeck));
         if(playerCardSum == croupierCardSum){
             draw();
-        } else if (playerCardSum > croupierCardSum) {
+        } else if (playerCardSum > croupierCardSum && !(playerCardSum>21)) {
             win();
-        } else if (playerCardSum < croupierCardSum) {
+        } else if (playerCardSum < croupierCardSum && !(croupierCardSum>21) ) {
             lose();
         }
     }

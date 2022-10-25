@@ -41,6 +41,7 @@ public class BlackjackScreen implements Screen {
     public static boolean isPlayerReady;
     public static String[] deck = new String[52];
     public static int money = 10000;
+    int frameCounter = 0;
     public static int bet;
     String[] cards = new String[]{"2 spade","2 club","2 diamond","2 heart","3 spade","3 club","3 diamond","3 heart","4 spade","4 club","4 diamond","4 heart","5 spade","5 club","5 diamond","5 heart","6 spade","6 club","6 diamond","6 heart","7 spade","7 club","7 diamond","7 heart","8 spade","8 club","8 diamond","8 heart","9 spade","9 club","9 diamond","9 heart","10 spade","10 club","10 diamond","10 heart","J spade","J club","J diamond","J heart","Q spade","Q club","Q diamond","Q heart","K spade","K club","K diamond","K heart","A spade","A club","A diamond","A heart"};
     public SpriteBatch batch;
@@ -179,6 +180,13 @@ public class BlackjackScreen implements Screen {
             }
         });
 
+        standButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                isPlayerReady = true;
+            }
+        });
+
         backTable.add(backButton);
         betTable.add(makeBet1,makeBet2,makeBet3,makeBet4);
 
@@ -215,6 +223,18 @@ public class BlackjackScreen implements Screen {
         }
         if(Integer.parseInt(BlackjackUtils.cardCount(playerDeck))>21){
             lose();
+        }
+        if(isPlayerReady && frameCounter/60 == 2&&!isCroupierReady){
+            if(Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))<17) {
+                addCard(croupierDeck);
+            }
+        }
+        if(isPlayerReady&&!isCroupierReady){
+            frameCounter++;
+        }
+        if(Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))>=17) {
+            isCroupierReady=true;
+
         }
 
         batch.end();

@@ -63,7 +63,7 @@ public class BlackjackScreen implements Screen {
         skin = new Skin();
         skin.addRegions(atlas);
 
-        cardshirt = new Texture(Gdx.files.internal("BlackJackAssets/cardshirt.jpg"));
+        cardshirt = new Texture(Gdx.files.internal("BlackJackAssets/cardshirt.png"));
 
         for(int i = 0; i < cards.length;i++){
             cardsTextures.put(cards[i],new Texture(Gdx.files.internal("BlackJackAssets/Cards/"+cards[i]+".png")));
@@ -93,6 +93,8 @@ public class BlackjackScreen implements Screen {
     }
 
     public void startGame(){
+        croupierDeck = new ArrayList<>();
+        playerDeck = new ArrayList<>();
         addCard(playerDeck);
         addCard(playerDeck);
         addCard(croupierDeck);
@@ -214,7 +216,7 @@ public class BlackjackScreen implements Screen {
         }
         if(isPlayerReady){
             for (int i = 0; i < croupierDeck.size();i++){
-                batch.draw(cardsTextures.get(croupierDeck.get(i)),100+i*200,1000);
+                batch.draw(cardsTextures.get(croupierDeck.get(i)),100+i*200,500);
             }
         }
         if(!isPlayerReady&&croupierDeck.size()!=0){
@@ -232,9 +234,9 @@ public class BlackjackScreen implements Screen {
         if(isPlayerReady&&!isCroupierReady){
             frameCounter++;
         }
-        if(Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))>=17) {
+        if(isPlayerReady&&Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))>=17) {
             isCroupierReady=true;
-
+            checkCards();
         }
 
         batch.end();
@@ -254,16 +256,40 @@ public class BlackjackScreen implements Screen {
     }
 
     public void lose(){
-        bet=0;
         //тут был показ карт
-        System.out.println("Крупье побеждает");
+        System.out.println("Croupier wins");
+        reset();
+    }
+    public void draw(){
+        System.out.println("Draw");
+        money+=bet;
+        reset();
+    }
+    public void win(){
+        System.out.println("Player wins");
+        money+=bet*2;
+        reset();
+    }
+    public void reset(){
+        System.out.println("Player: "+ BlackjackUtils.cardCount(playerDeck));
+        System.out.println("Croupier: " + BlackjackUtils.cardCount(croupierDeck));
+        bet = 0;
         isPlayerReady = true;
         isCroupierReady = true;
-        croupierDeck = new ArrayList<>();
-        playerDeck = new ArrayList<>();
         deck = BlackjackUtils.shuffleCards(cards);
         choiceTable.setVisible(false);
         betTable.setVisible(true);
+    }
+    public void checkCards(){
+        int croupierCardSum = Integer.parseInt(BlackjackUtils.cardCount(croupierDeck));
+        int playerCardSum = Integer.parseInt(BlackjackUtils.cardCount(playerDeck));
+        if(playerCardSum == croupierCardSum){
+            draw();
+        } else if (playerCardSum > croupierCardSum) {
+            win();
+        } else if (playerCardSum < croupierCardSum) {
+            lose();
+        }
     }
 
     @Override

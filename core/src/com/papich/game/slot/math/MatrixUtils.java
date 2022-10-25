@@ -21,7 +21,7 @@ public class MatrixUtils {
         float scaleY = dst.getHeight() / src.getHeight();
 
         mat.idt().translate(dst.pos.x, dst.pos.y)
-                .scale( scaleX, scaleY )
+                .scale(scaleX, scaleY)
                 .translate(-src.pos.x, -src.pos.y);
     }
 }

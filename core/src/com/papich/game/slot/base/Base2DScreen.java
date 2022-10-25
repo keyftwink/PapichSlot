@@ -28,7 +28,7 @@ public class Base2DScreen implements Screen, InputProcessor {
 
         this.screenBounds = new Rect();
         this.worldBounds  = new Rect();
-        this.glBounds  = new Rect(0, 0, 1f, 1f );
+        this.glBounds  = new Rect(0, 0, 1f, 1f);
         this.worldToGl = new Matrix4();
         this.screenToWorld = new Matrix3();
         this.touch = new Vector2();
@@ -40,20 +40,20 @@ public class Base2DScreen implements Screen, InputProcessor {
 
     @Override
     public void resize(int width, int height) {
-        System.out.println( "resize w = " + width + " h = " + height );
+        System.out.println("resize w = " + width + " h = " + height);
 
-        this.screenBounds.setSize( width, height );
-        this.screenBounds.setLeft( 0 );
-        this.screenBounds.setBottom( 0 );
+        this.screenBounds.setSize(width, height);
+        this.screenBounds.setLeft(0);
+        this.screenBounds.setBottom(0);
 
-        float aspect = width / (float) height;
-        this.worldBounds.setHeight( 1f );
-        this.worldBounds.setWidth( 1f * aspect );
+        float aspect = width / (float)height;
+        this.worldBounds.setHeight(1f);
+        this.worldBounds.setWidth(1f * aspect);
 
-        MatrixUtils.calcTransitionMatrix( this.worldToGl, this.worldBounds, this.glBounds );
-        this.batch.setProjectionMatrix( this.worldToGl );
-        MatrixUtils.calcTransitionMatrix( this.screenToWorld, this.screenBounds, this.worldBounds );
-        resize( this.worldBounds );
+        MatrixUtils.calcTransitionMatrix(this.worldToGl, this.worldBounds, this.glBounds);
+        this.batch.setProjectionMatrix(this.worldToGl);
+        MatrixUtils.calcTransitionMatrix(this.screenToWorld, this.screenBounds, this.worldBounds);
+        resize(this.worldBounds);
     }
 
     public void resize(Rect worldBounds) {
@@ -114,7 +114,6 @@ public class Base2DScreen implements Screen, InputProcessor {
     }
 
     public boolean touchUp(Vector2 touch, int pointer) {
-        //touchUp(this.touch, pointer);
         return false;
     }
 

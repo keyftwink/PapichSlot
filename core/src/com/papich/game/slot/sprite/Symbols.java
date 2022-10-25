@@ -4,7 +4,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Timer;
 import com.papich.game.slot.base.SpriteTween;
 import com.papich.game.slot.decorator.SpriteSymbolsDecorator;
@@ -16,8 +15,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 public class Symbols extends SpriteSymbolsDecorator {
@@ -76,10 +78,44 @@ public class Symbols extends SpriteSymbolsDecorator {
 
     public void startTwisting(){
         this.addSymbols();
-        Tween.registerAccessor(Sprite.class, new SpriteTween());
+        Tween.registerAccessor(Sprite.class, new SpriteTween() );
 
         this.timelines = new ArrayList<Timeline>();
         lineNumbers.hideAllNumber();
+
+        float[] durations = { 1.0f, 1.1f, 1.2f, 1.3f, 1.4f };
+
+//        this.enableBlurSymbols();
+        for ( int i = 0; i < durations.length; i++ ){
+            for ( SpriteSymbolsDecorator sprite: this.hashMap.get( "coll-" + i ) ) {
+                this.startTween( sprite, durations[i] );
+            }
+        }
+
+        this.stopAnimateByTimer();
+    }
+
+    public void startTween (final SpriteSymbolsDecorator sprite, float duration) {
+
+        this.timelines.add(Timeline.createSequence()
+                .beginSequence()
+                .push(Tween.to(sprite, SpriteTween.POSITION_Y, duration)
+                        .target( - (this.offsetX * 18) + sprite.getY())
+                        .ease(TweenEquations.easeNone))
+                .setCallbackTriggers(1)
+                .push(Tween.to(sprite, SpriteTween.POSITION_Y, duration)
+                        .target( - (this.offsetY * 18) + (sprite.getY()))
+                        .ease(TweenEquations.easeOutElastic))
+                .setCallback(new TweenCallback() {
+                    @Override
+                    public void onEvent(int type, BaseTween<?> source) {
+                        if (sprite.id > 17) {
+                            sprite.setAlpha(1.0f);
+                        }
+                    }
+                })
+                .end()
+                .start(this.tweenManager));
     }
 
     public void stopAnimate(){
@@ -117,13 +153,13 @@ public class Symbols extends SpriteSymbolsDecorator {
         }, delay);
     }
 
-    private void enableBlurSymbols(){
-        for(Map.Entry<String, List<SpriteSymbolsDecorator>> entry : this.hashMap.entrySet()){
-            for(SpriteSymbolsDecorator sprite : entry.getValue()){
-                sprite.setAlpha(0.6f);
-            }
-        }
-    }
+//    private void enableBlurSymbols(){
+//        for(Map.Entry<String, List<SpriteSymbolsDecorator>> entry : this.hashMap.entrySet()){
+//            for(SpriteSymbolsDecorator sprite : entry.getValue()){
+//                sprite.setAlpha(0.6f);
+//            }
+//        }
+//    }
 
     private void resize(int i){
         float height = 0.2f;

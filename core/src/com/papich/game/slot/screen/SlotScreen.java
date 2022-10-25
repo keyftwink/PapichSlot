@@ -4,22 +4,36 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.papich.game.slot.base.ActionListener;
 import com.papich.game.slot.base.Base2DScreen;
+import com.papich.game.slot.base.Sprite;
+import com.papich.game.slot.base.SpriteTween;
 import com.papich.game.slot.math.Rect;
 import com.papich.game.slot.sprite.Background;
+import com.papich.game.slot.sprite.ButtonStart;
 import com.papich.game.slot.sprite.LineNumbers;
 import com.papich.game.slot.sprite.Symbols;
 
-public class SlotScreen extends Base2DScreen{
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenManager;
+import aurelienribon.tweenengine.equations.Sine;
+
+public class SlotScreen extends Base2DScreen implements ActionListener {
 
     private Texture bgTexture;
     private Background background;
     private Background backgroundUp;
+    private TextureAtlas textureAtlas;
     private final AssetManager manager;
     private Symbols symbols;
     private LineNumbers lineNumbers;
+    private ButtonStart btnStart;
 
     public SlotScreen(AssetManager manager) {
         super();
@@ -30,16 +44,16 @@ public class SlotScreen extends Base2DScreen{
     public void show() {
         super.show();
 
-        if( this.manager.isLoaded("mainbackground.jpg")) {
-
-            this.bgTexture  = this.manager.get("mainbackground.jpg", Texture.class);
-            this.background = new Background(new TextureRegion(this.bgTexture));
-        }
-
         if( this.manager.isLoaded("mainbackground.png")) {
 
             this.bgTexture  = this.manager.get("mainbackground.png", Texture.class);
             this.backgroundUp = new Background(new TextureRegion(this.bgTexture));
+        }
+
+        if( this.manager.isLoaded("mainbackground.jpg")) {
+
+            this.bgTexture  = this.manager.get("mainbackground.jpg", Texture.class);
+            this.background = new Background(new TextureRegion(this.bgTexture));
         }
 
         LineNumbers lineNumbers = new LineNumbers(this.manager);
@@ -47,10 +61,15 @@ public class SlotScreen extends Base2DScreen{
 
         Symbols symbol = new Symbols(this.manager, this.lineNumbers);
         this.symbols = symbol.getSymbols();
+
+        this.textureAtlas = new TextureAtlas("slotAssets/buttons_menu.tpack");
+        this.btnStart = new ButtonStart(this.textureAtlas, this);
+
     }
 
     @Override
     public void render( float delta ) {
+
         super.render(delta);
 
         this.update(delta);
@@ -59,15 +78,17 @@ public class SlotScreen extends Base2DScreen{
     }
 
     public void update(float delta) {
-        this.symbols.update( delta );
+        this.symbols.update(delta);
     }
 
     public void draw() {
         Gdx.gl.glClearColor(0.128f, 0.53f, 0.9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
+        this.btnStart.resize(worldBounds);
         this.batch.begin();
-        this.background.draw( this.batch);
+        this.background.draw(this.batch);
         this.symbols.draw(this.batch);
         this.backgroundUp.draw(this.batch);
         this.lineNumbers.draw(this.batch);
@@ -127,4 +148,8 @@ public class SlotScreen extends Base2DScreen{
         super.hide();
     }
 
+    @Override
+    public void actionPerformed(Object src) {
+
+    }
 }

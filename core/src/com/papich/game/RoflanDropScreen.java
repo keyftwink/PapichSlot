@@ -410,7 +410,5 @@ public class RoflanDropScreen implements Screen {
 
         batch.dispose();
         font.dispose();
-
-
     }
 }

@@ -23,7 +23,6 @@ public class LoadBar extends Sprite {
                 this.scale, this.scale,
                 this.angel
         );
-        //super.draw(batch);
     }
 
     @Override

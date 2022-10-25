@@ -1,7 +1,5 @@
 package com.papich.game.slot.base;
 
-public class ActionListener {
-    void actionPerformed(Object src) {
-
-    }
+public interface ActionListener {
+    void actionPerformed(Object src);
 }

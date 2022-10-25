@@ -136,12 +136,10 @@ public class MainMenuScreen implements Screen {
         if(touchPos2D.x > (1920/2)-260 && touchPos2D.x < (1920/2)+260  && touchPos2D.y > 560  && touchPos2D.y < 680){
              //если булевая переменная приняла значение true то прячем кнопку
             playButton.setStyle(textButtonStyle2);
-
         }
         if(touchPos2D.x > (1920/2)-260 && touchPos2D.x < (1920/2)+260  && touchPos2D.y > 560  && touchPos2D.y < 680){
             //если булевая переменная приняла значение true то прячем кнопку
             playButton.setStyle(textButtonStyle2);
-
         }
         else{
             playButton.setStyle(textButtonStyle);

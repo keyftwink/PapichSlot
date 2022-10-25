@@ -37,7 +37,7 @@ public class BlackjackScreen implements Screen {
     Table betTable;
     Table choiceTable;
 
-
+    boolean isRoundEnded = false;
 
     public static boolean isCroupierReady;
     public static boolean isPlayerReady;
@@ -106,6 +106,7 @@ public class BlackjackScreen implements Screen {
         choiceTable.setVisible(true);
         isPlayerReady = false;
         isCroupierReady = false;
+        isRoundEnded = false;
     }
 
 
@@ -225,25 +226,25 @@ public class BlackjackScreen implements Screen {
             batch.draw(cardsTextures.get(croupierDeck.get(0)),700,800);
             batch.draw(cardshirt,800,800);
         }
-        if(!isPlayerReady&&Integer.parseInt(BlackjackUtils.cardCount(playerDeck))>21){
-            isCroupierReady = true;
-            isPlayerReady = true;
-            lose();
-        }
-        if(isPlayerReady && frameCounter/60 == 2&&!isCroupierReady){
-            if(Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))<17) {
-                addCard(croupierDeck);
+        if(!isRoundEnded) {
+            if (!isCroupierReady && !isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) > 21) {
+                lose();
             }
-        }
-        if(isPlayerReady&&!isCroupierReady){
-            frameCounter++;
-        }
-        if(isCroupierReady&& Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))>21){
-            win();
-        }
-        if(!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))>=17) {
-            isCroupierReady=true;
-            checkCards();
+            if (isPlayerReady && frameCounter / 60 == 2 && !isCroupierReady) {
+                if (Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) < 17) {
+                    addCard(croupierDeck);
+                }
+            }
+            if (isPlayerReady && !isCroupierReady) {
+                frameCounter++;
+            }
+            if (isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) > 21) {
+                win();
+            }
+            if (!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) >= 17) {
+                isCroupierReady = true;
+                checkCards();
+            }
         }
 
         batch.end();
@@ -286,6 +287,7 @@ public class BlackjackScreen implements Screen {
         deck = BlackjackUtils.shuffleCards(cards);
         choiceTable.setVisible(false);
         betTable.setVisible(true);
+        isRoundEnded = true;
     }
     public void checkCards(){
         int croupierCardSum = Integer.parseInt(BlackjackUtils.cardCount(croupierDeck));

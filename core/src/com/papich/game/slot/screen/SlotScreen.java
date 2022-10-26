@@ -44,15 +44,15 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
     public void show() {
         super.show();
 
-        if( this.manager.isLoaded("mainbackground.png")) {
+        if( this.manager.isLoaded("ruletka.png")) {
 
-            this.bgTexture  = this.manager.get("mainbackground.png", Texture.class);
+            this.bgTexture  = this.manager.get("ruletka.png", Texture.class);
             this.backgroundUp = new Background(new TextureRegion(this.bgTexture));
         }
 
-        if( this.manager.isLoaded("mainbackground.jpg")) {
+        if( this.manager.isLoaded("ruletka.jpg")) {
 
-            this.bgTexture  = this.manager.get("mainbackground.jpg", Texture.class);
+            this.bgTexture  = this.manager.get("ruletka.jpg", Texture.class);
             this.background = new Background(new TextureRegion(this.bgTexture));
         }
 

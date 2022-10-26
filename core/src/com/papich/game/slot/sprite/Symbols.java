@@ -43,7 +43,7 @@ public class Symbols extends SpriteSymbolsDecorator {
     }
 
     private Symbols(TextureAtlas atlas, int symbolNumber, int i, int cellNumber){
-        super(atlas.findRegion("symbol_animation-" + symbolNumber), symbolNumber, cellNumber );
+        super(atlas.findRegion("roflan" + String.valueOf(symbolNumber)), symbolNumber, cellNumber );
         this.cellNumber = cellNumber;
         this.resize(i);
     }
@@ -60,7 +60,7 @@ public class Symbols extends SpriteSymbolsDecorator {
             return;
         }
 
-        this.symbolTextures = new TextureAtlas("symbols-animations.tpack");
+        this.symbolTextures = new TextureAtlas("slotAssets/Symbols.tpack");
         this.hashMap = new HashMap<String, List<SpriteSymbolsDecorator>>();
 
         for (int i = 0; i < 5; i++){
@@ -69,7 +69,7 @@ public class Symbols extends SpriteSymbolsDecorator {
 
             for (int j = 0; j < 21; j++){
 
-                this.symbols.add(new Symbols(this.symbolTextures, Rnd.nextInt(0, 10), i, j));
+                this.symbols.add(new Symbols(this.symbolTextures, Rnd.nextInt(1, 10), i, j));
             }
 
             this.hashMap.put("coll-" + i, this.symbols);

@@ -37,12 +37,12 @@ public class LoaderScreen extends Base2DScreen implements Screen {
         super.show();
 
         this.manager = new AssetManager ();
-        this.manager.load("mainbackground.png", Texture.class);
-        this.manager.load("mainbackground.jpg", Texture.class);
+        this.manager.load("ruletka.png", Texture.class);
+        this.manager.load("ruletka.jpg", Texture.class);
         this.manager.load("bonus_background.jpg", Texture.class);
         this.manager.load("badlogic.jpg", Texture.class);
-        this.manager.load("symbols-animations.png", Texture.class);
-        this.manager.load("symbols-animations.tpack", TextureAtlas.class);
+        this.manager.load("slotAssets/roflan.png", Texture.class);
+        this.manager.load("slotAssets/Symbols.tpack", TextureAtlas.class);
         this.manager.load("numbers-line.png", Texture.class);
         this.manager.load("numbers-line.tpack", TextureAtlas.class);
 
@@ -64,6 +64,7 @@ public class LoaderScreen extends Base2DScreen implements Screen {
     }
 
     public void update(float delta) {
+
         if(!this.manager.update()) {
             if (this.loadBarWidth > (float) this.manager.getProgress()) {
                 this.loadBar.setWidth((float) this.manager.getProgress());

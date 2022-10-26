@@ -1,0 +1,75 @@
+roflan.png
+size: 446, 1033
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+roflan1
+  rotate: false
+  xy: 0, 412
+  size: 210, 207
+  orig: 210, 207
+  offset: 0, 0
+  index: -1
+roflan2
+  rotate: false
+  xy: 210, 412
+  size: 210, 207
+  orig: 210, 207
+  offset: 0, 0
+  index: -1
+roflan3
+  rotate: false
+  xy: 236, 0
+  size: 210, 206
+  orig: 210, 206
+  offset: 0, 0
+  index: -1
+roflan4
+  rotate: false
+  xy: 0, 206
+  size: 210, 206
+  orig: 210, 206
+  offset: 0, 0
+  index: -1
+roflan5
+  rotate: false
+  xy: 0, 619
+  size: 210, 207
+  orig: 210, 207
+  offset: 0, 0
+  index: -1
+roflan6
+  rotate: false
+  xy: 210, 619
+  size: 210, 207
+  orig: 210, 207
+  offset: 0, 0
+  index: -1
+roflan7
+  rotate: false
+  xy: 0, 826
+  size: 210, 207
+  orig: 210, 207
+  offset: 0, 0
+  index: -1
+roflan8
+  rotate: false
+  xy: 210, 206
+  size: 210, 206
+  orig: 210, 206
+  offset: 0, 0
+  index: -1
+roflan9
+  rotate: false
+  xy: 210, 826
+  size: 210, 207
+  orig: 210, 207
+  offset: 0, 0
+  index: -1
+roflan10
+  rotate: false
+  xy: 0, 0
+  size: 236, 206
+  orig: 236, 206
+  offset: 0, 0
+  index: -1

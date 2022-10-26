@@ -30,10 +30,10 @@ public class Symbols extends SpriteSymbolsDecorator {
     private TweenManager tweenManager = new TweenManager();
     private static LineNumbers lineNumbers;
     private int cellNumber;
-    private float startX = -0.5655f;
-    private float startY = 0.291f;
-    private float offsetX = 0.233f;
-    private float offsetY = 0.231f;
+    private float startX = -0.63f;
+    private float startY = -0.285f;
+    private float offsetX = 0.265f;
+    private float offsetY = 0.24f;
     private List<Timeline> timelines;
 
     public Symbols(AssetManager manager, LineNumbers lineNumbers){
@@ -96,7 +96,6 @@ public class Symbols extends SpriteSymbolsDecorator {
     }
 
     public void startTween (final SpriteSymbolsDecorator sprite, float duration) {
-
         this.timelines.add(Timeline.createSequence()
                 .beginSequence()
                 .push(Tween.to(sprite, SpriteTween.POSITION_Y, duration)

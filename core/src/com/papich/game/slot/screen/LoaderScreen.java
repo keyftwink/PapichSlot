@@ -75,14 +75,14 @@ public class LoaderScreen extends Base2DScreen implements Screen {
 
         }
 
-//        if(this.loadBarProcess > this.loadBarWidth && this.manager.update())
-//            if (!this.isLoaded) {
-//                this.isLoaded = true;
-//                this.loadBar.setWidth(this.loadBarWidth);
-//
-//                this.game.setScreen(new SlotScreen(this.manager));
-//
-//            }
+        if(this.loadBarProcess > this.loadBarWidth && this.manager.update())
+            if (!this.isLoaded) {
+                this.isLoaded = true;
+                this.loadBar.setWidth(this.loadBarWidth);
+
+                this.game.setScreen(new SlotScreen(this.manager));
+
+            }
     }
 
     public void draw() {

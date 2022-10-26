@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.papich.game.slot.base.Base2DScreen;
 import com.papich.game.slot.math.Rect;
@@ -26,6 +27,7 @@ public class LoaderScreen extends Base2DScreen implements Screen {
     private AssetManager manager;
     private boolean isLoaded = false;
     private final Game game;
+    private float loadBarProcess = 0f;
 
     public LoaderScreen(Game game) {
         super();
@@ -49,7 +51,7 @@ public class LoaderScreen extends Base2DScreen implements Screen {
         this.loadBarTexture = new Texture("loadbar.png");
         this.loadBar        = new LoadBar( new TextureRegion(this.loadBarTexture));
 
-        this.bgTexture  = new Texture("loadscreen.jpg");
+        this.bgTexture  = new Texture("loadscreen.png");
         this.background = new Background( new TextureRegion(this.bgTexture));
 
     }
@@ -65,18 +67,22 @@ public class LoaderScreen extends Base2DScreen implements Screen {
 
     public void update(float delta) {
 
-        if(!this.manager.update()) {
-            if (this.loadBarWidth > (float) this.manager.getProgress()) {
-                this.loadBar.setWidth((float) this.manager.getProgress());
-            }
+
+
+        if (this.loadBarWidth > this.loadBarProcess) {
+            this.loadBar.setWidth(loadBarProcess);
+            this.loadBarProcess += MathUtils.random(0.0001f, 0.003f);
+
         }
-        else {
+
+        if(this.loadBarProcess > this.loadBarWidth && this.manager.update())
             if (!this.isLoaded) {
                 this.isLoaded = true;
                 this.loadBar.setWidth(this.loadBarWidth);
+
                 this.game.setScreen(new SlotScreen(this.manager));
+
             }
-        }
     }
 
     public void draw() {

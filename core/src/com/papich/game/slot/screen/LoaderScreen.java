@@ -22,7 +22,7 @@ public class LoaderScreen extends Base2DScreen implements Screen {
     private Background background;
     private Texture loadBarTexture;
     private LoadBar loadBar;
-    private float loadBarWidth = 0.731f;
+    private float loadBarWidth = 0.5f;
     private TextureAtlas textureAtlas;
     private AssetManager manager;
     private boolean isLoaded = false;
@@ -75,14 +75,14 @@ public class LoaderScreen extends Base2DScreen implements Screen {
 
         }
 
-        if(this.loadBarProcess > this.loadBarWidth && this.manager.update())
-            if (!this.isLoaded) {
-                this.isLoaded = true;
-                this.loadBar.setWidth(this.loadBarWidth);
-
-                this.game.setScreen(new SlotScreen(this.manager));
-
-            }
+//        if(this.loadBarProcess > this.loadBarWidth && this.manager.update())
+//            if (!this.isLoaded) {
+//                this.isLoaded = true;
+//                this.loadBar.setWidth(this.loadBarWidth);
+//
+//                this.game.setScreen(new SlotScreen(this.manager));
+//
+//            }
     }
 
     public void draw() {

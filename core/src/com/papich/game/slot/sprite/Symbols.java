@@ -57,7 +57,7 @@ public class Symbols extends SpriteSymbolsDecorator {
 
     public void addSymbols(){
         if(this.symbols.size() == 21){
-            return;
+            this.symbols.clear();
         }
 
         this.symbolTextures = new TextureAtlas("slotAssets/Symbols.tpack");
@@ -147,6 +147,7 @@ public class Symbols extends SpriteSymbolsDecorator {
             @Override
             public void run() {
                 System.out.println("Stop symbol animation");
+
                 lineNumbers.showAllNumber();
             }
         }, delay);

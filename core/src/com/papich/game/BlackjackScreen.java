@@ -212,7 +212,7 @@ public class BlackjackScreen implements Screen {
         batch.draw(blackJackTable,0,0);
 
 
-        moneyFont.draw(batch, String.valueOf(money),1500,100);
+        moneyFont.draw(batch, String.valueOf(money),1500,125);
 
         for (int i = 0; i < playerDeck.size();i++){
             batch.draw(cardsTextures.get(playerDeck.get(i)),600+i*100,40);
@@ -230,9 +230,10 @@ public class BlackjackScreen implements Screen {
             if (!isCroupierReady && !isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) > 21) {
                 lose();
             }
-            if (isPlayerReady && frameCounter / 60 == 2 && !isCroupierReady) {
+            if (isPlayerReady && frameCounter / 60 == 1 && !isCroupierReady) {
                 if (Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) < 17) {
                     addCard(croupierDeck);
+                    frameCounter = 0;
                 }
             }
             if (isPlayerReady && !isCroupierReady) {

@@ -17,8 +17,8 @@ public class LineNumbers extends SpriteSymbolsDecorator{
     private TextureAtlas symbolTextures = new TextureAtlas();
     private List<SpriteSymbolsDecorator> numbers = new ArrayList<SpriteSymbolsDecorator>();
     private Map<String, List<SpriteSymbolsDecorator>> hashMap;
-    private float startRightX = 0.602f;
-    private float startLeftX = -0.647f;
+    private float startRightX = 0.722f;
+    private float startLeftX = -0.775f;
     private float startY = -0.32f;
     private float offsetY = 0.08f;
 

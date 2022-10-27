@@ -38,7 +38,7 @@ public class LineNumbers extends SpriteSymbolsDecorator{
         for(Map.Entry<String, List<SpriteSymbolsDecorator>> entry : this.hashMap.entrySet()){
             for(Iterator<SpriteSymbolsDecorator> iterator = entry.getValue().iterator(); iterator.hasNext();){
                 Sprite sprite = iterator.next();
-                sprite.setAlpha(1.0f);
+                sprite.setAlpha(0f);
             }
         }
     }
@@ -47,7 +47,7 @@ public class LineNumbers extends SpriteSymbolsDecorator{
         for(Map.Entry<String, List<SpriteSymbolsDecorator>> entry : this.hashMap.entrySet()){
             for(Iterator<SpriteSymbolsDecorator> iterator = entry.getValue().iterator(); iterator.hasNext();){
                 Sprite sprite = iterator.next();
-                sprite.setAlpha(0.4f);
+                sprite.setAlpha(0f);
             }
         }
     }
@@ -61,6 +61,7 @@ public class LineNumbers extends SpriteSymbolsDecorator{
 
             for (Iterator<SpriteSymbolsDecorator> iterator = entry.getValue().iterator(); iterator.hasNext(); ) {
                 Sprite sprite = iterator.next();
+                sprite.setAlpha(0f);
                 sprite.draw(batch);
             }
         }

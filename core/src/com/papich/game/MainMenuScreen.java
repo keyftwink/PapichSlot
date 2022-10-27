@@ -88,7 +88,7 @@ public class MainMenuScreen implements Screen {
 
 
         playButton = new TextButton("PLAY", textButtonStyle);
-        exitButton = new TextButton("EXIT", textButtonStyle);
+//        exitButton = new TextButton("EXIT", textButtonStyle);
 
 
 
@@ -98,12 +98,12 @@ public class MainMenuScreen implements Screen {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new ChoiceGameScreen(game));
             }
         });
-        exitButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
+//        exitButton.addListener(new ClickListener(){
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                Gdx.app.exit();
+//            }
+//        });
 
         table1.add(playButton);
         table1.center();

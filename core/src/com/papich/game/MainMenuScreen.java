@@ -30,6 +30,7 @@ public class MainMenuScreen implements Screen {
     TextButton.TextButtonStyle textButtonStyle;
     TextButton.TextButtonStyle textButtonStyle2;
     BitmapFont font;
+    BitmapFont font2;
     private SpriteBatch batch;
     protected Stage stage;
     private Viewport viewport;
@@ -42,6 +43,7 @@ public class MainMenuScreen implements Screen {
     public TextButton playButton;
     public TextButton exitButton;
     private final Game game;
+    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
 
     public MainMenuScreen(Game game) {
         super();
@@ -49,19 +51,23 @@ public class MainMenuScreen implements Screen {
         atlas = new TextureAtlas("skin.atlas");
         texture = new Texture(Gdx.files.internal("MainMenu.png"));
         skin = new Skin();
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Garamond Retrospective SSi Italic.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Hyundai Normal.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter2.size = 35;
         parameter.size=30;
         Color color = new Color(0xe6e682AA);
+        parameter2.color = color;
         parameter.color = color;
         font = generator.generateFont(parameter);
         font.setColor(Color.BLACK);
+        font2 = generator.generateFont(parameter2);
         skin.addRegions(atlas);
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
         textButtonStyle.up = skin.getDrawable("button");
         textButtonStyle2 = new TextButton.TextButtonStyle();
-        textButtonStyle2.font = font;
+        textButtonStyle2.font = font2;
         textButtonStyle2.up = skin.getDrawable("buttonActive");
 
 
@@ -133,14 +139,15 @@ public class MainMenuScreen implements Screen {
         stage.getWidth();
         stage.act();
         stage.draw();
-        if(touchPos2D.x > (1920/2)-260 && touchPos2D.x < (1920/2)+260  && touchPos2D.y > 560  && touchPos2D.y < 680){
+        if(touchPos2D.x > (1920/2)-260 && touchPos2D.x < (1920/2)+260  && touchPos2D.y > 500  && touchPos2D.y < 584){
              //если булевая переменная приняла значение true то прячем кнопку
             playButton.setStyle(textButtonStyle2);
+
         }
-        if(touchPos2D.x > (1920/2)-260 && touchPos2D.x < (1920/2)+260  && touchPos2D.y > 560  && touchPos2D.y < 680){
-            //если булевая переменная приняла значение true то прячем кнопку
-            playButton.setStyle(textButtonStyle2);
-        }
+//        if(touchPos2D.x > (1920/2)-260 && touchPos2D.x < (1920/2)+260  && touchPos2D.y > 560  && touchPos2D.y < 680){
+//            //если булевая переменная приняла значение true то прячем кнопку
+//            playButton.setStyle(textButtonStyle2);
+//        }
         else{
             playButton.setStyle(textButtonStyle);
         }

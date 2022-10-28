@@ -192,6 +192,17 @@ public class BlackjackScreen implements Screen {
             }
         });
 
+
+        doubleButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                money -= bet;
+                bet *= 2;
+                addCard(playerDeck);
+                isPlayerReady = true;
+            }
+        });
+
         backTable.add(backButton);
         betTable.add(makeBet1,makeBet2,makeBet3,makeBet4);
 
@@ -219,6 +230,7 @@ public class BlackjackScreen implements Screen {
         }
         if(isPlayerReady){
             for (int i = 0; i < croupierDeck.size();i++){
+
                 batch.draw(cardsTextures.get(croupierDeck.get(i)),600+i*100,800);
             }
         }
@@ -227,7 +239,7 @@ public class BlackjackScreen implements Screen {
             batch.draw(cardshirt,800,800);
         }
         if(!isRoundEnded) {
-            if (!isCroupierReady && !isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) > 21) {
+            if (!isCroupierReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) > 21) {
                 lose();
             }
             if (isPlayerReady && frameCounter / 60 == 1 && !isCroupierReady) {

@@ -95,7 +95,7 @@ public class RoflanDropScreen implements Screen {
 
         Papich1 = Gdx.audio.newSound(Gdx.files.internal("RoflanDrop/Papich1.wav"));
         catchSound = Gdx.audio.newSound(Gdx.files.internal("RoflanDrop/catchSound.wav"));
-        FonMusic = Gdx.audio.newMusic(Gdx.files.internal("RoflanDrop/FonMusic.wav"));
+//        FonMusic = Gdx.audio.newMusic(Gdx.files.internal("RoflanDrop/FonMusic.wav"));
         batch = new SpriteBatch();
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("RoflanDrop/myFont.ttf"));
@@ -157,8 +157,8 @@ public class RoflanDropScreen implements Screen {
         roflanCatcher.width = roflanCatcherImg.getWidth();
         roflanCatcher.height = 10;
 
-        FonMusic.setLooping(true);
-        FonMusic.play();
+//        FonMusic.setLooping(true);
+//        FonMusic.play();
 
 
         camera =new OrthographicCamera();
@@ -267,19 +267,17 @@ public class RoflanDropScreen implements Screen {
             Roflandrop roflandrop = iter.next();
 
 
-
-
-            if(isPaused){
+            if (isPaused) {
                 roflandrop.circle.y -= speed(combo) * Gdx.graphics.getDeltaTime();
-                if(TimeUtils.nanoTime() - lastRoflanTime > randomFrequency(combo)) spawnRoflandrop();
+                if (TimeUtils.nanoTime() - lastRoflanTime > randomFrequency(combo))
+                    spawnRoflandrop();
 
 
-
-
-                if(roflandrop.circle.y + roflandrop.circle.radius*2 < 370) {
-                    iter.remove();combo-=1;
+                if (roflandrop.circle.y + roflandrop.circle.radius * 2 < 370) {
+                    iter.remove();
+                    combo -= 1;
                 }
-                if(Intersector.overlaps(roflandrop.circle, roflanCatcher)) {
+                if (Intersector.overlaps(roflandrop.circle, roflanCatcher)) {
 
 
                     if (roflandrop.type == 0) {
@@ -319,7 +317,7 @@ public class RoflanDropScreen implements Screen {
                         DropsoundPapih.play();
                         combo += 100;
                         iter.remove();
-                        if(moralPlus < 8) moralPlus += 1;
+                        if (moralPlus < 8) moralPlus += 1;
                     } else if (roflandrop.type == 9) {
                         DropDyda = Gdx.audio.newSound(Gdx.files.internal("RoflanDrop/DropDyda.wav"));
                         DropDyda.play();
@@ -331,12 +329,9 @@ public class RoflanDropScreen implements Screen {
             }
         }
 
-
-
-
     }
     public void show() {
-        FonMusic.play();
+//        FonMusic.play();
     }
     class saveToScore{
         public saveToScore(int name) throws IOException {
@@ -405,7 +400,7 @@ public class RoflanDropScreen implements Screen {
         DropDyda.dispose();
         Papich1.dispose();
         catchSound.dispose();
-        FonMusic.dispose();
+//        FonMusic.dispose();
         PapichNePonimaet.dispose();
 
         batch.dispose();

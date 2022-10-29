@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -23,6 +24,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+
+import aurelienribon.tweenengine.TweenManager;
 
 public class BlackjackScreen implements Screen {
 
@@ -47,6 +50,7 @@ public class BlackjackScreen implements Screen {
     public static int bet;
     String[] cards = new String[]{"2 spade","2 club","2 diamond","2 heart","3 spade","3 club","3 diamond","3 heart","4 spade","4 club","4 diamond","4 heart","5 spade","5 club","5 diamond","5 heart","6 spade","6 club","6 diamond","6 heart","7 spade","7 club","7 diamond","7 heart","8 spade","8 club","8 diamond","8 heart","9 spade","9 club","9 diamond","9 heart","10 spade","10 club","10 diamond","10 heart","J spade","J club","J diamond","J heart","Q spade","Q club","Q diamond","Q heart","K spade","K club","K diamond","K heart","A spade","A club","A diamond","A heart"};
     public SpriteBatch batch;
+
     protected Stage stage;
     private Viewport viewport;
     private OrthographicCamera camera;
@@ -56,6 +60,14 @@ public class BlackjackScreen implements Screen {
     public Texture cardshirt;
     HashMap<String, Texture> cardsTextures = new HashMap<>();
     private final Game game;
+    HashMap<String, Texture> cadrsTextures = new HashMap<>();
+    public TextureAtlas animation;
+    int i;
+
+    public Texture texture;
+    public TextureAtlas.AtlasRegion region;
+    private TweenManager tweenManager = new TweenManager();
+
 
     public BlackjackScreen(Game game) {
         super();
@@ -90,6 +102,9 @@ public class BlackjackScreen implements Screen {
         camera = new OrthographicCamera();
         viewport = new FitViewport(1920, 1080, camera);
         viewport.apply();
+
+
+
 
         stage = new Stage(viewport, batch);
     }
@@ -219,6 +234,7 @@ public class BlackjackScreen implements Screen {
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.graphics.setForegroundFPS(30);
         batch.begin();
         batch.draw(blackJackTable,0,0);
 
@@ -259,6 +275,9 @@ public class BlackjackScreen implements Screen {
                 checkCards();
             }
         }
+
+
+
 
         batch.end();
         stage.act();

@@ -124,6 +124,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();

@@ -2,6 +2,7 @@ package com.papich.game.slot.decorator;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class SpriteSymbolsDecorator extends Sprite {
@@ -22,4 +23,6 @@ public class SpriteSymbolsDecorator extends Sprite {
         this.id = id;
         this.symbolNumber = symbolNumber;
     }
+
+
 }

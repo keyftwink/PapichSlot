@@ -1,7 +1,6 @@
 package com.papich.game.slot.base;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.papich.game.slot.math.Rect;
@@ -26,6 +25,8 @@ public class Sprite extends Rect {
     public Sprite(TextureRegion region, int rows, int cols, int frames){
         this.regions = Regions.split(region, rows, cols, frames);
     }
+
+
     public Sprite(){
     }
 

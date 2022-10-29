@@ -85,7 +85,7 @@ public class Symbols extends SpriteSymbolsDecorator {
 
         float[] durations = { 1.0f, 1.1f, 1.2f, 1.3f, 1.4f };
 
-//        this.enableBlurSymbols();
+        this.enableBlurSymbols();
         for ( int i = 0; i < durations.length; i++ ){
             for ( SpriteSymbolsDecorator sprite: this.hashMap.get( "coll-" + i ) ) {
                 this.startTween( sprite, durations[i] );
@@ -153,13 +153,13 @@ public class Symbols extends SpriteSymbolsDecorator {
         }, delay);
     }
 
-//    private void enableBlurSymbols(){
-//        for(Map.Entry<String, List<SpriteSymbolsDecorator>> entry : this.hashMap.entrySet()){
-//            for(SpriteSymbolsDecorator sprite : entry.getValue()){
-//                sprite.setAlpha(0.6f);
-//            }
-//        }
-//    }
+    private void enableBlurSymbols(){
+        for(Map.Entry<String, List<SpriteSymbolsDecorator>> entry : this.hashMap.entrySet()){
+            for(SpriteSymbolsDecorator sprite : entry.getValue()){
+                sprite.setAlpha(0.8f);
+            }
+        }
+    }
 
     private void resize(int i){
         float height = 0.2f;

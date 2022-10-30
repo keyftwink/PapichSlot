@@ -75,6 +75,7 @@ public class LoaderScreen extends Base2DScreen implements Screen {
     @Override
     public void render(float delta) {
         super.render(delta);
+
         Gdx.graphics.setForegroundFPS(30);
         this.update(delta);
 
@@ -92,14 +93,14 @@ public class LoaderScreen extends Base2DScreen implements Screen {
         }
 //
 //        this.loadBarProcess > this.loadBarWidth &&
-//        if( this.manager.update() && this.loadBarProcess > this.loadBarWidth)
-//            if (!this.isLoaded) {
-//                this.isLoaded = true;
-//                this.loadBar.setWidth(this.loadBarWidth);
-//
-//                this.game.setScreen(new SlotScreen(this.manager));
-//
-//            }
+        if( this.manager.update() && this.loadBarProcess > this.loadBarWidth)
+            this.cadrs.isLoaded();
+            if (this.isLoaded) {
+                this.isLoaded = true;
+                this.loadBar.setWidth(this.loadBarWidth);
+                this.game.setScreen(new SlotScreen(this.manager));
+
+            }
     }
 
     public void draw() {
@@ -135,6 +136,8 @@ public class LoaderScreen extends Base2DScreen implements Screen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
+        this.isLoaded = true;
+        this.FonMusic.stop();
         return false;
     }
 

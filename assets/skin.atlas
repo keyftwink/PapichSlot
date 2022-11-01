@@ -1,19 +1,19 @@
 skin.png
-size: 1056, 84
+size: 687, 69
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 button
   rotate: false
   xy: 0, 0
-  size: 520, 82
-  orig: 520, 82
+  size: 335, 66
+  orig: 335, 66
   offset: 0, 0
   index: -1
 buttonActive
   rotate: false
-  xy: 520, 0
-  size: 536, 84
-  orig: 536, 84
+  xy: 335, 0
+  size: 352, 69
+  orig: 352, 69
   offset: 0, 0
   index: -1

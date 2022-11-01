@@ -52,6 +52,7 @@ public class MainMenuScreen implements Screen {
         texture = new Texture(Gdx.files.internal("MainMenu.png"));
         skin = new Skin();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Hyundai Normal.ttf"));
+        FreeTypeFontGenerator generator1 = new FreeTypeFontGenerator(Gdx.files.internal("myFont.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         FreeTypeFontGenerator.FreeTypeFontParameter parameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter2.size = 35;
@@ -60,7 +61,7 @@ public class MainMenuScreen implements Screen {
         parameter2.color = color;
         parameter.color = color;
         font = generator.generateFont(parameter);
-        font.setColor(Color.BLACK);
+
         font2 = generator.generateFont(parameter2);
         skin.addRegions(atlas);
         textButtonStyle = new TextButton.TextButtonStyle();
@@ -69,7 +70,8 @@ public class MainMenuScreen implements Screen {
         textButtonStyle2 = new TextButton.TextButtonStyle();
         textButtonStyle2.font = font2;
         textButtonStyle2.up = skin.getDrawable("buttonActive");
-
+        font.setColor(Color.WHITE);
+        font = generator1.generateFont(parameter);
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
@@ -94,7 +96,7 @@ public class MainMenuScreen implements Screen {
 
 
         playButton = new TextButton("PLAY", textButtonStyle);
-//        exitButton = new TextButton("EXIT", textButtonStyle);
+        exitButton = new TextButton("EXIT", textButtonStyle);
 
 
 
@@ -104,18 +106,18 @@ public class MainMenuScreen implements Screen {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new ChoiceGameScreen(game));
             }
         });
-//        exitButton.addListener(new ClickListener(){
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                Gdx.app.exit();
-//            }
-//        });
+        exitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
 
         table1.add(playButton);
-        table1.center();
+        table1.setPosition(485, -520);
         table1.row();
         table2.add(exitButton);
-        table2.top();
+        table2.setPosition(485, -600);
         table2.row();
         stage.addActor(table1);
         stage.addActor(table2);
@@ -136,11 +138,12 @@ public class MainMenuScreen implements Screen {
         touchPos2D.y = touchPos.y;
         batch.begin();
         batch.draw(texture, 0, 0);
+        font.draw(batch, "v 0.1.0.1", 1350, 720);
         batch.end();
         stage.getWidth();
         stage.act();
         stage.draw();
-        if(touchPos2D.x > (1920/2)-260 && touchPos2D.x < (1920/2)+260  && touchPos2D.y > 500  && touchPos2D.y < 584){
+        if(touchPos2D.x > 1445 - 167 && touchPos2D.x < 1450 + 160  && touchPos2D.y > 490  && touchPos2D.y < 580){
              //если булевая переменная приняла значение true то прячем кнопку
             playButton.setStyle(textButtonStyle2);
 

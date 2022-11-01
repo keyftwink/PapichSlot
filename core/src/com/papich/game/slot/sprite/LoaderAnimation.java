@@ -25,10 +25,12 @@ public class LoaderAnimation extends Sprite {
     int frameCounter = 0;
     int i = 0;
     int j = 0;
+    int z = 0;
     private float anchorX = -0.185f;
     private float anchorY = 0f;
     private BitmapFont font;
     private boolean isLoaded = false;
+    private Texture foreground;
 
 
 
@@ -57,6 +59,11 @@ public class LoaderAnimation extends Sprite {
                 frameCounter = 0;
             }
 
+            if(isLoaded)z++;
+            if(z == 30 && isLoaded) z = 1;
+
+
+
             i++;
             if (i > 200) i = 1;
             batch.draw(
@@ -80,12 +87,14 @@ public class LoaderAnimation extends Sprite {
             }
             if(isLoaded){
                 batch.draw(
-                        new TextureRegion(new Texture("LoaderAnimation/Continue.png")),
+                        new TextureRegion(new Texture("LoaderAnimation/PressAnyKey/Frame " + z + ".png")),
                         this.anchorX, this.anchorY - 0.05f,
                         this.halfWidth, this.halfHeight,
                         getWidth() / 5, getHeight() / 26,
                         this.scale, this.scale,
                         this.angel);
+
+
             }
     }
 

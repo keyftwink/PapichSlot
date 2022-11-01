@@ -32,6 +32,7 @@ public class BlackjackScreen implements Screen {
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     BitmapFont moneyFont;
+    BitmapFont counter;
     public static ArrayList<String> croupierDeck = new ArrayList<>();
     public static ArrayList<String> playerDeck = new ArrayList<>();
     public static int cardsCounter = 0;
@@ -40,7 +41,7 @@ public class BlackjackScreen implements Screen {
     Table betTable;
     Table choiceTable;
 
-    boolean isRoundEnded = false;
+    boolean isRoundEnded = true;
 
     public static boolean isCroupierReady;
     public static boolean isPlayerReady;
@@ -50,7 +51,8 @@ public class BlackjackScreen implements Screen {
     public static int bet;
     String[] cards = new String[]{"2 spade","2 club","2 diamond","2 heart","3 spade","3 club","3 diamond","3 heart","4 spade","4 club","4 diamond","4 heart","5 spade","5 club","5 diamond","5 heart","6 spade","6 club","6 diamond","6 heart","7 spade","7 club","7 diamond","7 heart","8 spade","8 club","8 diamond","8 heart","9 spade","9 club","9 diamond","9 heart","10 spade","10 club","10 diamond","10 heart","J spade","J club","J diamond","J heart","Q spade","Q club","Q diamond","Q heart","K spade","K club","K diamond","K heart","A spade","A club","A diamond","A heart"};
     public SpriteBatch batch;
-
+    private String firstCounter = "";
+    private String croupierCounter = "";
     protected Stage stage;
     private Viewport viewport;
     private OrthographicCamera camera;
@@ -97,6 +99,7 @@ public class BlackjackScreen implements Screen {
         textButtonStyle.up = skin.getDrawable("button");
         parameter.color = Color.WHITE;
         parameter.size = 50;
+        counter = generator.generateFont(parameter);
         moneyFont = generator.generateFont(parameter);
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
@@ -116,7 +119,10 @@ public class BlackjackScreen implements Screen {
         addCard(playerDeck);
         addCard(playerDeck);
         addCard(croupierDeck);
+        this.firstCounter =  BlackjackUtils.cardCount(croupierDeck);
         addCard(croupierDeck);
+        this.croupierCounter = BlackjackUtils.cardCount(croupierDeck);
+
         betTable.setVisible(false);
         choiceTable.setVisible(true);
         isPlayerReady = false;
@@ -147,6 +153,7 @@ public class BlackjackScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                reset();
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
             }
         });
@@ -242,17 +249,18 @@ public class BlackjackScreen implements Screen {
         moneyFont.draw(batch, String.valueOf(money),1500,125);
 
         for (int i = 0; i < playerDeck.size();i++){
-            batch.draw(cardsTextures.get(playerDeck.get(i)),600+i*100,40);
+            batch.draw(cardsTextures.get(playerDeck.get(i)),800+i*100,150);
         }
         if(isPlayerReady){
             for (int i = 0; i < croupierDeck.size();i++){
-
-                batch.draw(cardsTextures.get(croupierDeck.get(i)),600+i*100,800);
+                counter.draw(batch, BlackjackUtils.cardCount(croupierDeck), 890, 770);
+                counter.draw(batch,BlackjackUtils.cardCount(playerDeck), 890, 140);
+                batch.draw(cardsTextures.get(croupierDeck.get(i)),800+i*100,800);
             }
         }
         if(!isPlayerReady&&croupierDeck.size()!=0){
-            batch.draw(cardsTextures.get(croupierDeck.get(0)),700,800);
-            batch.draw(cardshirt,800,800);
+            batch.draw(cardsTextures.get(croupierDeck.get(0)),800,800);
+            batch.draw(cardshirt,900,800);
         }
         if(!isRoundEnded) {
             if (!isCroupierReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) > 21) {
@@ -270,11 +278,17 @@ public class BlackjackScreen implements Screen {
             if (isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) > 21) {
                 win();
             }
+
             if (!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) >= 17) {
                 isCroupierReady = true;
                 checkCards();
             }
+
+            if(!isPlayerReady)counter.draw(batch, this.firstCounter, 890, 770);
+
+            counter.draw(batch,BlackjackUtils.cardCount(playerDeck), 890, 140);
         }
+        if (Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) == 21) win();
 
 
 

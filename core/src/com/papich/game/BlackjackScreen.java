@@ -3,11 +3,13 @@ package com.papich.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -40,6 +42,10 @@ public class BlackjackScreen implements Screen {
     Table choiceTable;
 
     boolean isRoundEnded = true;
+    boolean isWin = true;
+    boolean isLose = false;
+
+    public Sound sound;
 
     public static boolean isCroupierReady;
     public static boolean isPlayerReady;
@@ -109,7 +115,6 @@ public class BlackjackScreen implements Screen {
     }
 
     public void startGame(){
-        winner = "TBD";
         croupierDeck = new ArrayList<>();
         playerDeck = new ArrayList<>();
         cardsCounter = 0;
@@ -118,6 +123,7 @@ public class BlackjackScreen implements Screen {
         addCard(croupierDeck);
         this.firstCounter =  BlackjackUtils.cardCount(croupierDeck);
         addCard(croupierDeck);
+        
 
         betTable.setVisible(false);
         choiceTable.setVisible(true);
@@ -238,7 +244,7 @@ public class BlackjackScreen implements Screen {
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.graphics.setForegroundFPS(30);
+        Gdx.graphics.setForegroundFPS(60);
         batch.begin();
         batch.draw(blackJackTable,0,0);
 
@@ -282,12 +288,12 @@ public class BlackjackScreen implements Screen {
                 win(false);
             }
 
-            if (!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) >= 17) {
-                isCroupierReady = true;
-                checkCards();
-            }
+                if (!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) >= 17) {
+                    isCroupierReady = true;
+                    checkCards();
+                }
 
-            if(!isPlayerReady)counter.draw(batch, this.firstCounter, 890, 770);
+                if(!isPlayerReady)counter.draw(batch, this.firstCounter, 890, 770);
 
             counter.draw(batch,BlackjackUtils.cardCount(playerDeck), 890, 140);
         }
@@ -295,8 +301,24 @@ public class BlackjackScreen implements Screen {
             counter.draw(batch,winnerText,(float)Gdx.graphics.getWidth()/2,(float)Gdx.graphics.getHeight()/2);
         }
 
+            if (Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) == 21 && isWin){
+                sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/NiceBalance.wav"));
+                sound.play();
+                isWin = false;
+                lose(false);
+            }
 
-
+            if (Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) == 21 && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) == 21 && isWin){
+                sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/BlackJackDraw.mp3"));
+                sound.play();
+                isWin = false;
+                draw();
+            }
+            if(isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) <= 10 && isLose && isWin){
+                sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/If10.wav"));
+                sound.play();
+                isWin = false;
+            }
 
         batch.end();
         stage.act();
@@ -355,6 +377,7 @@ public class BlackjackScreen implements Screen {
         choiceTable.setVisible(false);
         betTable.setVisible(true);
         isRoundEnded = true;
+        isWin = true;
     }
     public void checkCards(){
         int croupierCardSum = Integer.parseInt(BlackjackUtils.cardCount(croupierDeck));

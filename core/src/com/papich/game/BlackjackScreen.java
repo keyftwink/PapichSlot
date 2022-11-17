@@ -35,6 +35,8 @@ public class BlackjackScreen implements Screen {
     BitmapFont counter;
     public static ArrayList<String> croupierDeck = new ArrayList<>();
     public static ArrayList<String> playerDeck = new ArrayList<>();
+    public static ArrayList<String> secondPlayerDeck = new ArrayList<>();
+    public static ArrayList<ArrayList<String>> playerDecks = new ArrayList<>();
     public static int cardsCounter = 0;
 
     Table backTable;
@@ -42,6 +44,7 @@ public class BlackjackScreen implements Screen {
     Table choiceTable;
 
     boolean isRoundEnded = true;
+    boolean isSplited = false;
 
     public Sound sound;
 
@@ -51,6 +54,7 @@ public class BlackjackScreen implements Screen {
     public static int money = 10000;
     int frameCounter = 0;
     public static int bet;
+    public static int secondBet;
     String[] cards = new String[]{"2 spade","2 club","2 diamond","2 heart","3 spade","3 club","3 diamond","3 heart","4 spade","4 club","4 diamond","4 heart","5 spade","5 club","5 diamond","5 heart","6 spade","6 club","6 diamond","6 heart","7 spade","7 club","7 diamond","7 heart","8 spade","8 club","8 diamond","8 heart","9 spade","9 club","9 diamond","9 heart","10 spade","10 club","10 diamond","10 heart","J spade","J club","J diamond","J heart","Q spade","Q club","Q diamond","Q heart","K spade","K club","K diamond","K heart","A spade","A club","A diamond","A heart"};
     public SpriteBatch batch;
     private String winner = "TBD";
@@ -65,6 +69,9 @@ public class BlackjackScreen implements Screen {
     public Texture blackJackTable;
     public Texture cardshirt;
     final int renderStartPos = 940;
+    int activeDeck = 0;
+    final int firstRenderStartPos = 640;
+    final int secondRenderStartPos = 1240;
     HashMap<String, Texture> cardsTextures = new HashMap<>();
     Texture cardsBorder = new Texture(Gdx.files.internal("BlackJackAssets/cardBorder.png"));
     private final Game game;
@@ -121,15 +128,114 @@ public class BlackjackScreen implements Screen {
     public void startGame(){
         winner = "TBD";
         choiceTable.clear();
+        hitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                choiceTable.removeActor(doubleButton);
+                choiceTable.bottom();
+                addCard(playerDeck);
+            }
+        });
+
+        standButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                choiceTable.setVisible(false);
+                choiceTable.removeActor(splitButton);
+                choiceTable.removeActor(doubleButton);
+                choiceTable.bottom();
+                isPlayerReady = true;
+            }
+        });
+
+
+        doubleButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                choiceTable.removeActor(splitButton);
+                choiceTable.removeActor(doubleButton);
+                choiceTable.bottom();
+                money -= bet;
+                bet *= 2;
+                addCard(playerDeck);
+                choiceTable.setVisible(false);
+                isPlayerReady = true;
+            }
+        });
+
+        splitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                choiceTable.removeActor(splitButton);
+                choiceTable.bottom();
+                money -= bet;
+                secondBet = bet;
+
+
+                secondPlayerDeck.add(playerDeck.get(1));
+                playerDeck.remove(1);
+                isSplited = true;
+                playerDecks.add(playerDeck);
+                playerDecks.add(secondPlayerDeck);
+                addCard(playerDecks.get(0));
+                addCard(playerDecks.get(1));
+                hitButton.clearListeners();
+                standButton.clearListeners();
+                doubleButton.clearListeners();
+
+                hitButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        choiceTable.removeActor(doubleButton);
+                        choiceTable.bottom();
+                        addCard(playerDecks.get(activeDeck));
+                    }
+                });
+                standButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        choiceTable.removeActor(doubleButton);
+                        choiceTable.bottom();
+                        activeDeckCheck();
+                    }
+                });
+                doubleButton.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        choiceTable.removeActor(doubleButton);
+                        choiceTable.bottom();
+                        if(activeDeck==0) {
+                            money -= bet;
+                            bet *= 2;
+                        }
+                        else if(activeDeck==1){
+                            money -= secondBet;
+                            secondBet*=2;
+                        }
+                        addCard(playerDecks.get(activeDeck));
+                    }
+                });
+            }
+        });
         choiceTable.add(hitButton, standButton);
         croupierDeck = new ArrayList<>();
         playerDeck = new ArrayList<>();
+        secondPlayerDeck = new ArrayList<>();
+        playerDecks = new ArrayList<>();
+        isSplited = false;
         cardsCounter = 0;
+        activeDeck = 0;
         addCard(playerDeck);
         addCard(playerDeck);
         addCard(croupierDeck);
         this.firstCounter =  BlackjackUtils.cardCount(croupierDeck);
         addCard(croupierDeck);
+
+        //split test
+        playerDeck.clear();
+        playerDeck.add("Q spade");
+        playerDeck.add("K spade");
+
         choiceTable.add(doubleButton);
         if ((BlackjackUtils.cardCount(playerDeck.get(0))==BlackjackUtils.cardCount(playerDeck.get(1)))) {
             choiceTable.addActor(splitButton);
@@ -212,40 +318,7 @@ public class BlackjackScreen implements Screen {
         doubleButton = new TextButton("Double",textButtonStyle);
         splitButton = new TextButton("Split",textButtonStyle);
 
-        hitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                choiceTable.removeActor(doubleButton);
-                choiceTable.bottom();
-                addCard(playerDeck);
-            }
-        });
 
-        standButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                choiceTable.setVisible(false);
-                choiceTable.removeActor(splitButton);
-                choiceTable.removeActor(doubleButton);
-                choiceTable.bottom();
-                isPlayerReady = true;
-            }
-        });
-
-
-        doubleButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                choiceTable.removeActor(splitButton);
-                choiceTable.removeActor(splitButton);
-                choiceTable.bottom();
-                money -= bet;
-                bet *= 2;
-                addCard(playerDeck);
-                choiceTable.setVisible(false);
-                isPlayerReady = true;
-            }
-        });
 
         backTable.add(backButton);
         betTable.add(makeBet1,makeBet2,makeBet3,makeBet4);
@@ -258,6 +331,18 @@ public class BlackjackScreen implements Screen {
         stage.addActor(backTable);
         stage.addActor(betTable);
     }
+    public void activeDeckCheck(){
+        if(activeDeck==0){
+            activeDeck++;
+            choiceTable.add(doubleButton);
+        }
+        else {
+            isPlayerReady=true;
+        }
+        if(isPlayerReady){
+            choiceTable.setVisible(false);
+        }
+    }
 
     @Override
     public void render(float delta) {
@@ -267,61 +352,134 @@ public class BlackjackScreen implements Screen {
         Gdx.graphics.setForegroundFPS(60);
         batch.begin();
         batch.draw(blackJackTable,0,0);
-
-
-        moneyFont.draw(batch, String.valueOf(money),1500,125);
-
-        for (int i = 0; i < playerDeck.size();i++){
-            batch.draw(cardsTextures.get(playerDeck.get(i)),(renderStartPos-playerDeck.size()*40)+i*100,150);
-            if(winner.equals("player")){
-                batch.draw(cardsBorder,(renderStartPos-playerDeck.size()*40)+i*100,150);
+        moneyFont.draw(batch, String.valueOf(money), 1500, 125);
+        if(isSplited){
+            if (!isPlayerReady && croupierDeck.size() != 0) {
+                batch.draw(cardsTextures.get(croupierDeck.get(0)), (renderStartPos - croupierDeck.size() * 40), 800);
+                batch.draw(cardshirt, (renderStartPos - croupierDeck.size() * 40) + 100, 800);
             }
-        }
-        if(isPlayerReady){
-            for (int i = 0; i < croupierDeck.size();i++){
-                counter.draw(batch, BlackjackUtils.cardCount(croupierDeck), (float)Gdx.graphics.getWidth()/2, 770);
-                counter.draw(batch,BlackjackUtils.cardCount(playerDeck), (float)Gdx.graphics.getWidth()/2, 140);
-                batch.draw(cardsTextures.get(croupierDeck.get(i)),(renderStartPos-croupierDeck.size()*40)+i*100,800);
-                if(winner.equals("croupier")){
-                    batch.draw(cardsBorder,(renderStartPos-croupierDeck.size()*40)+i*100,800);
+            if(isRoundEnded) {
+                counter.draw(batch, winnerText, (float) Gdx.graphics.getWidth() / 2 - winnerText.length() * 13, (float) Gdx.graphics.getHeight() / 2);
+                for (int i = 0; i < playerDeck.size(); i++) {
+                    batch.draw(cardsTextures.get(playerDeck.get(i)), (firstRenderStartPos - playerDeck.size() * 40) + i * 100, 150);
+                    if (winner.equals("player")) {
+                        batch.draw(cardsBorder, (firstRenderStartPos - playerDeck.size() * 40) + i * 100, 150);
+                    }
+                }
+                for (int i = 0; i < secondPlayerDeck.size(); i++) {
+                    batch.draw(cardsTextures.get(secondPlayerDeck.get(i)), (secondRenderStartPos - secondPlayerDeck.size() * 40) + i * 100, 150);
+                    if (winner.equals("player")) {
+                        batch.draw(cardsBorder, (secondRenderStartPos - secondPlayerDeck.size() * 40) + i * 100, 150);
+                    }
                 }
             }
-        }
-        if(!isPlayerReady&&croupierDeck.size()!=0){
-            batch.draw(cardsTextures.get(croupierDeck.get(0)),(renderStartPos-croupierDeck.size()*40),800);
-            batch.draw(cardshirt,(renderStartPos-croupierDeck.size()*40)+100,800);
-        }
-        if(!isRoundEnded) {
-            if (!isCroupierReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) > 21) {
-                lose(false);
-            }
-            if (isPlayerReady && frameCounter / 60 == 1 && !isCroupierReady) {
-                if (Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) < 17) {
-                    addCard(croupierDeck);
-                    frameCounter = 0;
+            if (isPlayerReady) {
+                for (int i = 0; i < croupierDeck.size(); i++) {
+                    counter.draw(batch, BlackjackUtils.cardCount(croupierDeck), (float) Gdx.graphics.getWidth() / 2, 770);
+                    batch.draw(cardsTextures.get(croupierDeck.get(i)), (renderStartPos - croupierDeck.size() * 40) + i * 100, 800);
+                    if (winner.equals("croupier")) {
+                        batch.draw(cardsBorder, (renderStartPos - croupierDeck.size() * 40) + i * 100, 800);
+                    }
                 }
             }
-            if (isPlayerReady && !isCroupierReady) {
-                frameCounter++;
-            }
-            if (isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) > 21) {
-                win(false);
+            counter.draw(batch, BlackjackUtils.cardCount(playerDeck), (float) firstRenderStartPos, 140);
+            counter.draw(batch, BlackjackUtils.cardCount(secondPlayerDeck), secondRenderStartPos, 140);
+            if(!isRoundEnded){
+
+                for (int i = 0; i < playerDecks.get(activeDeck).size(); i++) {
+                    batch.draw(cardsTextures.get(playerDecks.get(activeDeck).get(i)), ((activeDeck == 0 ? firstRenderStartPos : secondRenderStartPos) - playerDecks.get(activeDeck).size() * 40) + i * 100, 150);
+                    if (!isPlayerReady) {
+                        batch.draw(cardsBorder, ((activeDeck == 0 ? firstRenderStartPos : secondRenderStartPos) - playerDecks.get(activeDeck).size() * 40) + i * 100, 150);
+                    }
+                }
+                for (int i = 0; i < playerDecks.get(activeDeck == 0 ? 1 : 0).size(); i++) {
+                    batch.draw(cardsTextures.get(playerDecks.get(activeDeck == 0 ? 1 : 0).get(i)), ((activeDeck == 1 ? firstRenderStartPos : secondRenderStartPos) - playerDecks.get(activeDeck).size() * 40) + i * 100, 150);
+                }
+
+
+                if (!isCroupierReady && Integer.parseInt(BlackjackUtils.cardCount(playerDecks.get(activeDeck))) > 21) {
+                   activeDeckCheck();
+                }
+                if (isPlayerReady && frameCounter / 60 == 1 && !isCroupierReady) {
+                    if (Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) < 17) {
+                        addCard(croupierDeck);
+                        frameCounter = 0;
+                    }
+                }
+                if (isPlayerReady && !isCroupierReady) {
+                    frameCounter++;
+                }
+
+                if (Integer.parseInt(BlackjackUtils.cardCount(playerDecks.get(activeDeck))) == 21) {
+                    activeDeckCheck();
+                }
+
+                if (!isPlayerReady) {
+                    counter.draw(batch, this.firstCounter, (float) Gdx.graphics.getWidth() / 2, 770);
+                }
+                if (!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) >= 17) {
+                    isCroupierReady = true;
+                }
+                if(isCroupierReady&&isPlayerReady){
+                    checkSplitedCards();
+                }
             }
 
-            if (!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) >= 17) {
+        }
+        else {
+            for (int i = 0; i < playerDeck.size(); i++) {
+                batch.draw(cardsTextures.get(playerDeck.get(i)), (renderStartPos - playerDeck.size() * 40) + i * 100, 150);
+                if (winner.equals("player")) {
+                    batch.draw(cardsBorder, (renderStartPos - playerDeck.size() * 40) + i * 100, 150);
+                }
+            }
+            if (isPlayerReady) {
+                for (int i = 0; i < croupierDeck.size(); i++) {
+                    counter.draw(batch, BlackjackUtils.cardCount(croupierDeck), (float) Gdx.graphics.getWidth() / 2, 770);
+                    counter.draw(batch, BlackjackUtils.cardCount(playerDeck), (float) Gdx.graphics.getWidth() / 2, 140);
+                    batch.draw(cardsTextures.get(croupierDeck.get(i)), (renderStartPos - croupierDeck.size() * 40) + i * 100, 800);
+                    if (winner.equals("croupier")) {
+                        batch.draw(cardsBorder, (renderStartPos - croupierDeck.size() * 40) + i * 100, 800);
+                    }
+                }
+            }
+            if (!isPlayerReady && croupierDeck.size() != 0) {
+                batch.draw(cardsTextures.get(croupierDeck.get(0)), (renderStartPos - croupierDeck.size() * 40), 800);
+                batch.draw(cardshirt, (renderStartPos - croupierDeck.size() * 40) + 100, 800);
+            }
+            if (!isRoundEnded) {
+                if (!isCroupierReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) > 21) {
+                    lose(false);
+                }
+                if (isPlayerReady && frameCounter / 60 == 1 && !isCroupierReady) {
+                    if (Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) < 17) {
+                        addCard(croupierDeck);
+                        frameCounter = 0;
+                    }
+                }
+                if (isPlayerReady && !isCroupierReady) {
+                    frameCounter++;
+                }
+                if (isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) > 21) {
+                    win(false);
+                }
+
+                if (!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) >= 17) {
                     isCroupierReady = true;
                     checkCards();
-            }
-            if(Integer.parseInt(BlackjackUtils.cardCount(playerDeck))==21){
-                isPlayerReady = true;
-            }
+                }
+                if (Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) == 21) {
+                    isPlayerReady = true;
+                }
 
-            if(!isPlayerReady)counter.draw(batch, this.firstCounter, (float)Gdx.graphics.getWidth()/2, 770);
+                if (!isPlayerReady)
+                    counter.draw(batch, this.firstCounter, (float) Gdx.graphics.getWidth() / 2, 770);
 
-            counter.draw(batch,BlackjackUtils.cardCount(playerDeck), (float)Gdx.graphics.getWidth()/2, 140);
-        }
-        if(isRoundEnded){
-            counter.draw(batch,winnerText,(float)Gdx.graphics.getWidth()/2-winnerText.length()*13,(float)Gdx.graphics.getHeight()/2);
+                counter.draw(batch, BlackjackUtils.cardCount(playerDeck), (float) Gdx.graphics.getWidth() / 2, 140);
+            }
+            if (isRoundEnded) {
+                counter.draw(batch, winnerText, (float) Gdx.graphics.getWidth() / 2 - winnerText.length() * 13, (float) Gdx.graphics.getHeight() / 2);
+            }
         }
 
 
@@ -390,12 +548,68 @@ public class BlackjackScreen implements Screen {
         System.out.println("Player: "+ BlackjackUtils.cardCount(playerDeck));
         System.out.println("Croupier: " + BlackjackUtils.cardCount(croupierDeck));
         bet = 0;
+        secondBet = 0;
         isPlayerReady = true;
         isCroupierReady = true;
         deck = BlackjackUtils.shuffleCards(cards);
         choiceTable.setVisible(false);
         betTable.setVisible(true);
         isRoundEnded = true;
+
+    }
+    public void checkSplitedCards(){
+        int croupierCardSum = Integer.parseInt(BlackjackUtils.cardCount(croupierDeck));
+        int firstPlayerCardSum = Integer.parseInt(BlackjackUtils.cardCount(playerDecks.get(0)));
+        int secondPlayerCardSum = Integer.parseInt(BlackjackUtils.cardCount(playerDecks.get(1)));
+        if(firstPlayerCardSum>21){
+            money-=bet;
+            winner = "croupier";
+        }
+        if(secondPlayerCardSum>21){
+            money-=secondBet;
+            winner = "croupier";
+        }
+        if(croupierCardSum>21) {
+            if (firstPlayerCardSum <= 21) {
+                money += bet*2;
+                winner = "player";
+            }
+            if (secondPlayerCardSum <= 21) {
+                money += secondBet*2;
+                winner = "player";
+            }
+        }
+        else {
+            if (firstPlayerCardSum < croupierCardSum) {
+                money -= bet;
+                winner = "croupier";
+                winnerText ="Croupier wins";
+            }
+            if (firstPlayerCardSum == croupierCardSum) {
+                money += bet;
+                winnerText ="Draw";
+            }
+            if (secondPlayerCardSum == croupierCardSum) {
+                money += secondBet;
+                winnerText ="Draw";
+            }
+            if (secondPlayerCardSum < croupierCardSum) {
+                money -= secondBet;
+                winner = "croupier";
+                winnerText ="Croupier wins";
+            }
+            if (firstPlayerCardSum > croupierCardSum) {
+                money += bet * 2;
+                winner = "player";
+                winnerText ="Player wins";
+            }
+            if (secondPlayerCardSum > croupierCardSum) {
+                money += bet * 2;
+                winner = "player";
+                winnerText ="Player wins";
+            }
+        }
+        reset();
 
     }
     public void checkCards(){

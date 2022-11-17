@@ -120,6 +120,8 @@ public class BlackjackScreen implements Screen {
 
     public void startGame(){
         winner = "TBD";
+        choiceTable.clear();
+        choiceTable.add(hitButton, standButton);
         croupierDeck = new ArrayList<>();
         playerDeck = new ArrayList<>();
         cardsCounter = 0;
@@ -128,7 +130,6 @@ public class BlackjackScreen implements Screen {
         addCard(croupierDeck);
         this.firstCounter =  BlackjackUtils.cardCount(croupierDeck);
         addCard(croupierDeck);
-        choiceTable.removeActor(splitButton);
         choiceTable.add(doubleButton);
         if ((BlackjackUtils.cardCount(playerDeck.get(0))==BlackjackUtils.cardCount(playerDeck.get(1)))) {
             choiceTable.addActor(splitButton);
@@ -215,6 +216,7 @@ public class BlackjackScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 choiceTable.removeActor(doubleButton);
+                choiceTable.bottom();
                 addCard(playerDeck);
             }
         });
@@ -222,8 +224,10 @@ public class BlackjackScreen implements Screen {
         standButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                choiceTable.setVisible(false);
                 choiceTable.removeActor(splitButton);
                 choiceTable.removeActor(doubleButton);
+                choiceTable.bottom();
                 isPlayerReady = true;
             }
         });
@@ -234,6 +238,7 @@ public class BlackjackScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 choiceTable.removeActor(splitButton);
                 choiceTable.removeActor(splitButton);
+                choiceTable.bottom();
                 money -= bet;
                 bet *= 2;
                 addCard(playerDeck);
@@ -245,8 +250,9 @@ public class BlackjackScreen implements Screen {
         backTable.add(backButton);
         betTable.add(makeBet1,makeBet2,makeBet3,makeBet4);
 
-        choiceTable.add(hitButton,standButton,doubleButton);
+        choiceTable.add(hitButton,standButton);
         choiceTable.setVisible(false);
+        choiceTable.setFillParent(true);
 
         stage.addActor(choiceTable);
         stage.addActor(backTable);

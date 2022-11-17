@@ -1,13 +1,23 @@
 package com.papich.game.slot.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.papich.game.BlackjackScreen;
 import com.papich.game.slot.base.ActionListener;
 import com.papich.game.slot.base.Base2DScreen;
 import com.papich.game.slot.base.Sprite;
@@ -33,7 +43,13 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
     private final AssetManager manager;
     private Symbols symbols;
     private LineNumbers lineNumbers;
-    private ButtonStart btnStart;
+//    private TextureAtlas atlas;
+//    protected Skin skin;
+//
+//    TextButton.TextButtonStyle textButtonStyle;
+//    BitmapFont font;
+    //private ButtonStart btnStart;
+
 
     public SlotScreen(AssetManager manager) {
         super();
@@ -62,9 +78,31 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
         Symbols symbol = new Symbols(this.manager, this.lineNumbers);
         this.symbols = symbol.getSymbols();
 
-        this.textureAtlas = new TextureAtlas("slotAssets/buttons_menu.tpack");
-        this.btnStart = new ButtonStart(this.textureAtlas, this);
-
+//        atlas = new TextureAtlas("buttons_menu.tpack");
+//        skin = new Skin();
+//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("myFont.ttf"));
+//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//        parameter.size=30;
+//        Color color = Color.BLACK;
+//        parameter.color = color;
+//        font = generator.generateFont(parameter);
+//        font.setColor(Color.BLACK);
+//        skin.addRegions(atlas);
+//        textButtonStyle = new TextButton.TextButtonStyle();
+//        textButtonStyle.font = font;
+//        textButtonStyle.up = skin.getDrawable("button");
+//
+//        Table mainTable = new Table();
+//        mainTable.setFillParent(true);
+//        mainTable.top();
+//        TextButton startButton = new TextButton("", textButtonStyle);
+//
+//        startButton.addListener(new ClickListener(){
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -86,7 +124,7 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-        this.btnStart.resize(worldBounds);
+        //this.btnStart.resize(worldBounds);
         this.batch.begin();
         this.background.draw(this.batch);
         this.symbols.draw(this.batch);
@@ -131,17 +169,6 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
         return super.touchUp(touch, pointer);
     }
 
-    //@Override
-    //public void actionPerformed( Object src ) {
-        /*
-        if ( src == this.btnExit ) {
-            Gdx.app.exit();
-        }
-        else if ( src == this.btnPlay ) {
-            this.game.setScreen( new GameScreen( this.game ) );
-        }
-        */
-    //}
 
     @Override
     public void hide() {
@@ -150,6 +177,9 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
 
     @Override
     public void actionPerformed(Object src) {
-
+//        if( src == btnStart){
+//            this.symbols.startTwisting();
+//            btnStart.set
+//        }
     }
 }

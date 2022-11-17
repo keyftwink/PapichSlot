@@ -72,7 +72,6 @@ public class ChoiceGameScreen implements Screen {
         TextButton slotsButton = new TextButton("SLOTS", textButtonStyle);
         TextButton backButton = new TextButton("BACK", textButtonStyle);
 
-
         blackjackButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {

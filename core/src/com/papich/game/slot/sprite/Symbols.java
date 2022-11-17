@@ -30,6 +30,7 @@ public class Symbols extends SpriteSymbolsDecorator {
     private TweenManager tweenManager = new TweenManager();
     private static LineNumbers lineNumbers;
     private int cellNumber;
+    private int winCounter;
     private float startX = -0.63f;
     private float startY = -0.285f;
     private float offsetX = 0.265f;
@@ -55,6 +56,9 @@ public class Symbols extends SpriteSymbolsDecorator {
         return this;
     }
 
+    List<String> list = new ArrayList<>();
+
+
     public void addSymbols(){
         if(this.symbols.size() == 21){
             this.symbols.clear();
@@ -63,18 +67,92 @@ public class Symbols extends SpriteSymbolsDecorator {
         this.symbolTextures = new TextureAtlas("slotAssets/Symbols.tpack");
         this.hashMap = new HashMap<String, List<SpriteSymbolsDecorator>>();
 
+        int b = -1;
         for (int i = 0; i < 5; i++){
 
             this.symbols = new ArrayList<SpriteSymbolsDecorator>();
 
             for (int j = 0; j < 21; j++){
 
-                this.symbols.add(new Symbols(this.symbolTextures, Rnd.nextInt(1, 10), i, j));
-            }
+                int f = Rnd.nextInt(1, 10);
+                if(j >= 18){
 
+                    b++;
+                    list.add("roflan" + f);
+                }
+                this.symbols.add(new Symbols(this.symbolTextures, f, i, j));
+            }
             this.hashMap.put("coll-" + i, this.symbols);
         }
+//        for(int i = 0; i < list.size(); i++){
+//            System.out.println(list.get(i));
+//        }
     }
+
+    public void win() {
+
+            for (int i = 1; i <= 10; i++) {
+                if (list.get(2).equals("roflan" + i)) {
+                    if (list.get(5).equals("roflan" + i)) {
+                        winCounter += 50;
+                        System.out.println(winCounter);
+                        if (list.get(6).equals("roflan" + i)) {
+                            winCounter += 100;
+                            System.out.println(winCounter);
+                            if (list.get(9).equals("roflan" + i)) {
+                                winCounter += 200;
+                                System.out.println(winCounter);
+                                if (list.get(12).equals("roflan" + i)) {
+                                    winCounter += 400;
+                                    System.out.println(winCounter);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            for (int i = 1; i <= 10; i++) {
+                if (list.get(1).equals("roflan" + i)) {
+                    if (list.get(4).equals("roflan" + i)) {
+                        winCounter += 50;
+                        System.out.println(winCounter);
+                        if (list.get(7).equals("roflan" + i)) {
+                            winCounter += 100;
+                            System.out.println(winCounter);
+                            if (list.get(10).equals("roflan" + i)) {
+                                winCounter += 200;
+                                System.out.println(winCounter);
+                                if (list.get(13).equals("roflan" + i)) {
+                                    winCounter += 400;
+                                    System.out.println(winCounter);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            for (int i = 1; i <= 10; i++) {
+                if (list.get(0).equals("roflan" + i)) {
+                    if (list.get(3).equals("roflan" + i)) {
+                        winCounter += 50;
+                        System.out.println(winCounter);
+                        if (list.get(8).equals("roflan" + i)) {
+                            winCounter += 100;
+                            System.out.println(winCounter);
+                            if (list.get(11).equals("roflan" + i)) {
+                                winCounter += 200;
+                                System.out.println(winCounter);
+                                if (list.get(14).equals("roflan" + i)) {
+                                    winCounter += 400;
+                                    System.out.println(winCounter);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
     public void startTwisting(){
         this.addSymbols();
@@ -86,13 +164,15 @@ public class Symbols extends SpriteSymbolsDecorator {
         float[] durations = { 1.0f, 1.1f, 1.2f, 1.3f, 1.4f };
 
         this.enableBlurSymbols();
-        for ( int i = 0; i < durations.length; i++ ){
-            for ( SpriteSymbolsDecorator sprite: this.hashMap.get( "coll-" + i ) ) {
-                this.startTween( sprite, durations[i] );
+        for (int i = 0; i < durations.length; i++){
+            for (SpriteSymbolsDecorator sprite: this.hashMap.get("coll-" + i)) {
+                this.startTween(sprite, durations[i]);
             }
         }
 
         this.stopAnimateByTimer();
+        win();
+        list.clear();
     }
 
     public void startTween (final SpriteSymbolsDecorator sprite, float duration) {

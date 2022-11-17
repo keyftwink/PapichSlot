@@ -31,9 +31,11 @@ public class LineNumbers extends SpriteSymbolsDecorator{
         super(atlas.findRegion(cellNumber + ""), cellNumber);
         this.resize(cellNumber, side);
     }
+
     public void showWinNumber(int[] winNums){
 
     }
+
     public void showAllNumber(){
         for(Map.Entry<String, List<SpriteSymbolsDecorator>> entry : this.hashMap.entrySet()){
             for(Iterator<SpriteSymbolsDecorator> iterator = entry.getValue().iterator(); iterator.hasNext();){

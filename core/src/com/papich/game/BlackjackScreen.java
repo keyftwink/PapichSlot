@@ -3,6 +3,7 @@ package com.papich.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -42,12 +43,21 @@ public class BlackjackScreen implements Screen {
     Table choiceTable;
 
     boolean isRoundEnded = true;
+    boolean isWin = true;
+    boolean isLose = false;
+
+    public Sound sound;
 
     public static boolean isCroupierReady;
     public static boolean isPlayerReady;
+    public static boolean isSplit = false;
+
     public static String[] deck = new String[52];
     public static int money = 10000;
+
     int frameCounter = 0;
+    int counterCadrs;
+
     public static int bet;
     String[] cards = new String[]{"2 spade","2 club","2 diamond","2 heart","3 spade","3 club","3 diamond","3 heart","4 spade","4 club","4 diamond","4 heart","5 spade","5 club","5 diamond","5 heart","6 spade","6 club","6 diamond","6 heart","7 spade","7 club","7 diamond","7 heart","8 spade","8 club","8 diamond","8 heart","9 spade","9 club","9 diamond","9 heart","10 spade","10 club","10 diamond","10 heart","J spade","J club","J diamond","J heart","Q spade","Q club","Q diamond","Q heart","K spade","K club","K diamond","K heart","A spade","A club","A diamond","A heart"};
     public SpriteBatch batch;
@@ -128,6 +138,7 @@ public class BlackjackScreen implements Screen {
         isPlayerReady = false;
         isCroupierReady = false;
         isRoundEnded = false;
+
     }
 
 
@@ -198,7 +209,7 @@ public class BlackjackScreen implements Screen {
         TextButton hitButton = new TextButton("Hit",textButtonStyle);
         TextButton standButton = new TextButton("Stand",textButtonStyle);
         TextButton doubleButton = new TextButton("Double",textButtonStyle);
-        TextButton  splitButton = new TextButton("Split",textButtonStyle);
+        TextButton splitButton = new TextButton("Split",textButtonStyle);
 
         hitButton.addListener(new ClickListener() {
             @Override
@@ -241,54 +252,83 @@ public class BlackjackScreen implements Screen {
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.graphics.setForegroundFPS(30);
+        Gdx.graphics.setForegroundFPS(60);
         batch.begin();
         batch.draw(blackJackTable,0,0);
 
 
         moneyFont.draw(batch, String.valueOf(money),1500,125);
 
-        for (int i = 0; i < playerDeck.size();i++){
-            batch.draw(cardsTextures.get(playerDeck.get(i)),800+i*100,150);
-        }
-        if(isPlayerReady){
-            for (int i = 0; i < croupierDeck.size();i++){
-                counter.draw(batch, BlackjackUtils.cardCount(croupierDeck), 890, 770);
-                counter.draw(batch,BlackjackUtils.cardCount(playerDeck), 890, 140);
-                batch.draw(cardsTextures.get(croupierDeck.get(i)),800+i*100,800);
+        if(isRoundEnded)isWin = false;
+
+
+
+        if(!isSplit){
+            if(playerDeck.size() >= 3)counterCadrs = playerDeck.size();
+            for (int i = 0; i < playerDeck.size();i++){
+                batch.draw(cardsTextures.get(playerDeck.get(i)),(800+i*100) - counterCadrs * 25,150);
+
             }
-        }
-        if(!isPlayerReady&&croupierDeck.size()!=0){
-            batch.draw(cardsTextures.get(croupierDeck.get(0)),800,800);
-            batch.draw(cardshirt,900,800);
-        }
-        if(!isRoundEnded) {
-            if (!isCroupierReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) > 21) {
-                lose();
-            }
-            if (isPlayerReady && frameCounter / 60 == 1 && !isCroupierReady) {
-                if (Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) < 17) {
-                    addCard(croupierDeck);
-                    frameCounter = 0;
+            if(isPlayerReady){
+                for (int i = 0; i < croupierDeck.size();i++){
+                    counter.draw(batch, BlackjackUtils.cardCount(croupierDeck), 890, 770);
+                    counter.draw(batch,BlackjackUtils.cardCount(playerDeck), 890, 140);
+                    batch.draw(cardsTextures.get(croupierDeck.get(i)),800+i*100,800);
                 }
             }
-            if (isPlayerReady && !isCroupierReady) {
-                frameCounter++;
+            if(!isPlayerReady&&croupierDeck.size()!=0){
+                batch.draw(cardsTextures.get(croupierDeck.get(0)),800,800);
+                batch.draw(cardshirt,900,800);
             }
-            if (isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) > 21) {
-                win();
+            if(!isRoundEnded) {
+                isLose = false;
+                if (!isCroupierReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) > 21) {
+                    lose();
+                }
+                if (isPlayerReady && frameCounter / 60 == 1 && !isCroupierReady) {
+                    if (Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) < 17) {
+                        addCard(croupierDeck);
+                        frameCounter = 0;
+                    }
+                }
+                if (isPlayerReady && !isCroupierReady) {
+                    frameCounter++;
+                }
+                if (isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) > 21) {
+                    win();
+                }
+
+                if (!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) >= 17) {
+                    isCroupierReady = true;
+                    checkCards();
+                }
+
+                if(!isPlayerReady)counter.draw(batch, this.firstCounter, 890, 770);
+
+                counter.draw(batch,BlackjackUtils.cardCount(playerDeck), 890, 140);
+            }
+            if (Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) == 21) win();
+
+            if (Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) == 21 && isWin){
+                sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/NiceBalance.wav"));
+                sound.play();
+                isWin = false;
+                lose();
             }
 
-            if (!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) >= 17) {
-                isCroupierReady = true;
-                checkCards();
+            if (Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) == 21 && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) == 21 && isWin){
+                sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/BlackJackDraw.mp3"));
+                sound.play();
+                isWin = false;
+                draw();
             }
-
-            if(!isPlayerReady)counter.draw(batch, this.firstCounter, 890, 770);
-
-            counter.draw(batch,BlackjackUtils.cardCount(playerDeck), 890, 140);
+            if(isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) <= 10 && isLose && isWin){
+                sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/If10.wav"));
+                sound.play();
+                isWin = false;
+            }
         }
-        if (Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) == 21) win();
+
 
 
 
@@ -312,6 +352,7 @@ public class BlackjackScreen implements Screen {
     public void lose(){
         //тут был показ карт
         System.out.println("Croupier wins");
+        isLose = true;
         reset();
     }
     public void draw(){
@@ -334,6 +375,8 @@ public class BlackjackScreen implements Screen {
         choiceTable.setVisible(false);
         betTable.setVisible(true);
         isRoundEnded = true;
+        isWin = true;
+        counterCadrs = 0;
     }
     public void checkCards(){
         int croupierCardSum = Integer.parseInt(BlackjackUtils.cardCount(croupierDeck));

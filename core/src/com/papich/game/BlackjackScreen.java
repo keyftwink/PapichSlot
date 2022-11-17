@@ -42,8 +42,6 @@ public class BlackjackScreen implements Screen {
     Table choiceTable;
 
     boolean isRoundEnded = true;
-    boolean isWin = true;
-    boolean isLose = false;
 
     public Sound sound;
 
@@ -63,14 +61,20 @@ public class BlackjackScreen implements Screen {
     private final OrthographicCamera camera;
     protected Skin skin;
     public TextureAtlas atlas;
-    private String winnerText = "TBD";
+    private String winnerText = "";
     public Texture blackJackTable;
     public Texture cardshirt;
+    final int renderStartPos = 940;
     HashMap<String, Texture> cardsTextures = new HashMap<>();
     Texture cardsBorder = new Texture(Gdx.files.internal("BlackJackAssets/cardBorder.png"));
     private final Game game;
 
     public TextureAtlas.AtlasRegion region;
+
+    TextButton hitButton;
+    TextButton standButton;
+    TextButton doubleButton;
+    TextButton splitButton;
 
 
     public BlackjackScreen(Game game) {
@@ -115,6 +119,7 @@ public class BlackjackScreen implements Screen {
     }
 
     public void startGame(){
+        winner = "TBD";
         croupierDeck = new ArrayList<>();
         playerDeck = new ArrayList<>();
         cardsCounter = 0;
@@ -123,8 +128,11 @@ public class BlackjackScreen implements Screen {
         addCard(croupierDeck);
         this.firstCounter =  BlackjackUtils.cardCount(croupierDeck);
         addCard(croupierDeck);
-        
-
+        choiceTable.removeActor(splitButton);
+        choiceTable.add(doubleButton);
+        if ((BlackjackUtils.cardCount(playerDeck.get(0))==BlackjackUtils.cardCount(playerDeck.get(1)))) {
+            choiceTable.addActor(splitButton);
+        }
         betTable.setVisible(false);
         choiceTable.setVisible(true);
         isPlayerReady = false;
@@ -198,14 +206,15 @@ public class BlackjackScreen implements Screen {
             }
         });
 
-        TextButton hitButton = new TextButton("Hit",textButtonStyle);
-        TextButton standButton = new TextButton("Stand",textButtonStyle);
-        TextButton doubleButton = new TextButton("Double",textButtonStyle);
-        TextButton  splitButton = new TextButton("Split",textButtonStyle);
+        hitButton = new TextButton("Hit",textButtonStyle);
+        standButton = new TextButton("Stand",textButtonStyle);
+        doubleButton = new TextButton("Double",textButtonStyle);
+        splitButton = new TextButton("Split",textButtonStyle);
 
         hitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                choiceTable.removeActor(doubleButton);
                 addCard(playerDeck);
             }
         });
@@ -213,6 +222,8 @@ public class BlackjackScreen implements Screen {
         standButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                choiceTable.removeActor(splitButton);
+                choiceTable.removeActor(doubleButton);
                 isPlayerReady = true;
             }
         });
@@ -221,9 +232,12 @@ public class BlackjackScreen implements Screen {
         doubleButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                choiceTable.removeActor(splitButton);
+                choiceTable.removeActor(splitButton);
                 money -= bet;
                 bet *= 2;
                 addCard(playerDeck);
+                choiceTable.setVisible(false);
                 isPlayerReady = true;
             }
         });
@@ -231,7 +245,7 @@ public class BlackjackScreen implements Screen {
         backTable.add(backButton);
         betTable.add(makeBet1,makeBet2,makeBet3,makeBet4);
 
-        choiceTable.add(hitButton,standButton,doubleButton,splitButton);
+        choiceTable.add(hitButton,standButton,doubleButton);
         choiceTable.setVisible(false);
 
         stage.addActor(choiceTable);
@@ -252,24 +266,24 @@ public class BlackjackScreen implements Screen {
         moneyFont.draw(batch, String.valueOf(money),1500,125);
 
         for (int i = 0; i < playerDeck.size();i++){
-            batch.draw(cardsTextures.get(playerDeck.get(i)),800+i*100,150);
+            batch.draw(cardsTextures.get(playerDeck.get(i)),(renderStartPos-playerDeck.size()*40)+i*100,150);
             if(winner.equals("player")){
-                batch.draw(cardsBorder,800+i*100,150);
+                batch.draw(cardsBorder,(renderStartPos-playerDeck.size()*40)+i*100,150);
             }
         }
         if(isPlayerReady){
             for (int i = 0; i < croupierDeck.size();i++){
-                counter.draw(batch, BlackjackUtils.cardCount(croupierDeck), 890, 770);
-                counter.draw(batch,BlackjackUtils.cardCount(playerDeck), 890, 140);
-                batch.draw(cardsTextures.get(croupierDeck.get(i)),800+i*100,800);
+                counter.draw(batch, BlackjackUtils.cardCount(croupierDeck), (float)Gdx.graphics.getWidth()/2, 770);
+                counter.draw(batch,BlackjackUtils.cardCount(playerDeck), (float)Gdx.graphics.getWidth()/2, 140);
+                batch.draw(cardsTextures.get(croupierDeck.get(i)),(renderStartPos-croupierDeck.size()*40)+i*100,800);
                 if(winner.equals("croupier")){
-                    batch.draw(cardsBorder,800+i*100,800);
+                    batch.draw(cardsBorder,(renderStartPos-croupierDeck.size()*40)+i*100,800);
                 }
             }
         }
         if(!isPlayerReady&&croupierDeck.size()!=0){
-            batch.draw(cardsTextures.get(croupierDeck.get(0)),800,800);
-            batch.draw(cardshirt,900,800);
+            batch.draw(cardsTextures.get(croupierDeck.get(0)),(renderStartPos-croupierDeck.size()*40),800);
+            batch.draw(cardshirt,(renderStartPos-croupierDeck.size()*40)+100,800);
         }
         if(!isRoundEnded) {
             if (!isCroupierReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) > 21) {
@@ -288,37 +302,22 @@ public class BlackjackScreen implements Screen {
                 win(false);
             }
 
-                if (!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) >= 17) {
+            if (!isCroupierReady && isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) >= 17) {
                     isCroupierReady = true;
                     checkCards();
-                }
+            }
+            if(Integer.parseInt(BlackjackUtils.cardCount(playerDeck))==21){
+                isPlayerReady = true;
+            }
 
-                if(!isPlayerReady)counter.draw(batch, this.firstCounter, 890, 770);
+            if(!isPlayerReady)counter.draw(batch, this.firstCounter, (float)Gdx.graphics.getWidth()/2, 770);
 
-            counter.draw(batch,BlackjackUtils.cardCount(playerDeck), 890, 140);
+            counter.draw(batch,BlackjackUtils.cardCount(playerDeck), (float)Gdx.graphics.getWidth()/2, 140);
         }
         if(isRoundEnded){
-            counter.draw(batch,winnerText,(float)Gdx.graphics.getWidth()/2,(float)Gdx.graphics.getHeight()/2);
+            counter.draw(batch,winnerText,(float)Gdx.graphics.getWidth()/2-winnerText.length()*13,(float)Gdx.graphics.getHeight()/2);
         }
 
-            if (Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) == 21 && isWin){
-                sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/NiceBalance.wav"));
-                sound.play();
-                isWin = false;
-                lose(false);
-            }
-
-            if (Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) == 21 && Integer.parseInt(BlackjackUtils.cardCount(croupierDeck)) == 21 && isWin){
-                sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/BlackJackDraw.mp3"));
-                sound.play();
-                isWin = false;
-                draw();
-            }
-            if(isPlayerReady && Integer.parseInt(BlackjackUtils.cardCount(playerDeck)) <= 10 && isLose && isWin){
-                sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/If10.wav"));
-                sound.play();
-                isWin = false;
-            }
 
         batch.end();
         stage.act();
@@ -337,22 +336,35 @@ public class BlackjackScreen implements Screen {
     }
 
     public void lose(boolean isBlackJack){
+        if(Integer.parseInt(BlackjackUtils.cardCount(playerDeck))<=9){
+            sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/If10.wav"));
+            sound.play();
+        }
         winner = "croupier";
         if(isBlackJack){
             winnerText = "Croupier had a BlackJack";
+            sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/NiceBalance.wav"));
+            sound.play();
         }
         else {
             winnerText = "Croupier wins";
             //тут был показ карт(кто это написал?), его тут не было
             System.out.println("Croupier wins");
-            reset();
         }
-    }
-    public void draw(){
-        winnerText = "Draw";
-        System.out.println("Draw");
-        money+=bet;
         reset();
+    }
+    public void draw(boolean isBlackJack){
+        winnerText = "Draw";
+        if(isBlackJack){
+            sound = Gdx.audio.newSound(Gdx.files.internal("BlackJackAssets/BlackJackDraw.mp3"));
+            sound.play();
+        }
+        else {
+            System.out.println("Draw");
+            money += bet;
+        }
+        reset();
+
     }
     public void win(boolean isBlackJack){
         winner = "player";
@@ -364,8 +376,9 @@ public class BlackjackScreen implements Screen {
             winnerText = "Player wins";
             System.out.println("Player wins");
             money += bet * 2;
-            reset();
+
         }
+        reset();
     }
     public void reset(){
         System.out.println("Player: "+ BlackjackUtils.cardCount(playerDeck));
@@ -377,13 +390,13 @@ public class BlackjackScreen implements Screen {
         choiceTable.setVisible(false);
         betTable.setVisible(true);
         isRoundEnded = true;
-        isWin = true;
+
     }
     public void checkCards(){
         int croupierCardSum = Integer.parseInt(BlackjackUtils.cardCount(croupierDeck));
         int playerCardSum = Integer.parseInt(BlackjackUtils.cardCount(playerDeck));
         if(playerCardSum == croupierCardSum){
-            draw();
+            draw(false);
         } else if (playerCardSum > croupierCardSum && !(playerCardSum>21)) {
             win(false);
         } else if (playerCardSum < croupierCardSum && !(croupierCardSum>21) ) {
@@ -392,7 +405,10 @@ public class BlackjackScreen implements Screen {
     }
 
     public void checkBlackJack(){
-        if(Integer.parseInt(BlackjackUtils.cardCount(playerDeck))==21){
+        if(Integer.parseInt(BlackjackUtils.cardCount(playerDeck))==21&&Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))==21){
+            draw(true);
+        }
+        else if(Integer.parseInt(BlackjackUtils.cardCount(playerDeck))==21){
             win(true);
         }
         else if(Integer.parseInt(BlackjackUtils.cardCount(croupierDeck))==21){
@@ -454,6 +470,32 @@ abstract class BlackjackUtils {
             }
         }
         return String.valueOf(cardSum);
+
+    }
+    public static int cardCount(String card) {
+        int cardSum = 0;
+            switch (card.split(" ")[0]){
+                case ("A"):
+                    cardSum += 11;
+                    break;
+                case ("K"):
+                case ("Q"):
+                case ("J"):
+                case ("10"):
+                    cardSum += 10;
+                    break;
+                case ("9"):
+                case ("8"):
+                case ("7"):
+                case ("6"):
+                case ("5"):
+                case ("4"):
+                case ("3"):
+                case ("2"):
+                    cardSum += Integer.parseInt(card.split(" ")[0]);
+                    break;
+            }
+        return cardSum;
 
     }
     public static String[] shuffleCards(String[] cards){

@@ -30,7 +30,7 @@ public class Symbols extends SpriteSymbolsDecorator {
     private TweenManager tweenManager = new TweenManager();
     private static LineNumbers lineNumbers;
     private int cellNumber;
-    private int winCounter;
+    static public int winCounter;
     private float startX = -0.63f;
     private float startY = -0.285f;
     private float offsetX = 0.265f;

@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.papich.game.BlackjackScreen;
 import com.papich.game.slot.base.ActionListener;
 import com.papich.game.slot.base.Base2DScreen;
+import com.papich.game.slot.base.Font;
 import com.papich.game.slot.base.Sprite;
 import com.papich.game.slot.base.SpriteTween;
 import com.papich.game.slot.math.Rect;
@@ -43,6 +44,8 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
     private final AssetManager manager;
     private Symbols symbols;
     private LineNumbers lineNumbers;
+    private Font font;
+
 //    private TextureAtlas atlas;
 //    protected Skin skin;
 //
@@ -71,6 +74,14 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
             this.bgTexture  = this.manager.get("ruletka.jpg", Texture.class);
             this.background = new Background(new TextureRegion(this.bgTexture));
         }
+
+//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("RoflanDrop/myFont.ttf"));
+//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//        parameter.size=5;
+//        font = generator.generateFont(parameter);
+        font = new Font( "font.fnt", "font.png" );
+        font.setFontSize(0.03f);
+        font.setColor(207,207,164,255);
 
         LineNumbers lineNumbers = new LineNumbers(this.manager);
         this.lineNumbers = lineNumbers.getNumbers();
@@ -130,14 +141,18 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
         this.symbols.draw(this.batch);
         this.backgroundUp.draw(this.batch);
         this.lineNumbers.draw(this.batch);
-
+        this.font.draw(
+                this.batch,
+                String.valueOf(Symbols.winCounter),
+                this.worldBounds.getRight() - 0.24f,
+                this.worldBounds.getTop() - 0.89f);
         this.batch.end();
     }
 
     @Override
     public void resize(Rect worldBounds) {
 
-        System.out.println("SlotsScreen => resize");
+
         this.background.resize(worldBounds);
         this.backgroundUp.resize(worldBounds);
     }

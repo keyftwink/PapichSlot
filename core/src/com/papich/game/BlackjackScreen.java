@@ -232,9 +232,9 @@ public class BlackjackScreen implements Screen {
         addCard(croupierDeck);
 
         //split test
-        playerDeck.clear();
-        playerDeck.add("Q spade");
-        playerDeck.add("K spade");
+//        playerDeck.clear();
+//        playerDeck.add("Q spade");
+//        playerDeck.add("K spade");
 
         choiceTable.add(doubleButton);
         if ((BlackjackUtils.cardCount(playerDeck.get(0))==BlackjackUtils.cardCount(playerDeck.get(1)))) {

@@ -138,19 +138,17 @@ public class MainMenuScreen implements Screen {
         touchPos2D.y = touchPos.y;
         batch.begin();
         batch.draw(texture, 0, 0);
-        font.draw(batch, "v 0.1.0.1", 1350, 720);
+        font.draw(batch, "v 0.9.9.8", 1350, 720);
         batch.end();
         stage.getWidth();
         stage.act();
         stage.draw();
 
         if(touchPos2D.x >  1445 - 167 && touchPos2D.x < 1450 + 160  && touchPos2D.y > 395  && touchPos2D.y < 480){
-            //если булевая переменная приняла значение true то прячем кнопку
             exitButton.setStyle(textButtonStyle2);
         }
 
         else if(touchPos2D.x > 1440 - 167 && touchPos2D.x < 1450 + 160  && touchPos2D.y > 490  && touchPos2D.y < 575){
-             //если булевая переменная приняла значение true то прячем кнопку
             playButton.setStyle(textButtonStyle2);
 
         }

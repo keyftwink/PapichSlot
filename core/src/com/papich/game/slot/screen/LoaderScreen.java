@@ -91,8 +91,7 @@ public class LoaderScreen extends Base2DScreen implements Screen {
             this.loadBarProcess += MathUtils.random(0.0001f, 0.003f);
 
         }
-//
-//        this.loadBarProcess > this.loadBarWidth &&
+
         if( this.manager.update() && this.loadBarProcess > this.loadBarWidth){
             this.cadrs.isLoaded();
             this.loadBar.setWidth(this.loadBarWidth);

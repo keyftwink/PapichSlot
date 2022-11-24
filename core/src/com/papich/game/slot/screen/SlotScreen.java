@@ -46,12 +46,7 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
     private LineNumbers lineNumbers;
     private Font font;
 
-//    private TextureAtlas atlas;
-//    protected Skin skin;
-//
-//    TextButton.TextButtonStyle textButtonStyle;
-//    BitmapFont font;
-    //private ButtonStart btnStart;
+
 
 
     public SlotScreen(AssetManager manager) {

@@ -3,6 +3,7 @@ package com.papich.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -44,9 +45,12 @@ public class MainMenuScreen implements Screen {
     public TextButton exitButton;
     private final Game game;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    Sound clicks;
+
 
     public MainMenuScreen(Game game) {
         super();
+      clicks = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
         this.game = game;
         atlas = new TextureAtlas("skin.atlas");
         texture = new Texture(Gdx.files.internal("MainMenu.png"));
@@ -103,12 +107,14 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new ChoiceGameScreen(game));
             }
         });
         exitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 Gdx.app.exit();
             }
         });

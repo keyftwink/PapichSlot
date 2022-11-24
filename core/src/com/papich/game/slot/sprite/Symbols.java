@@ -91,6 +91,7 @@ public class Symbols extends SpriteSymbolsDecorator {
 
     public void win() {
 
+
             for (int i = 1; i <= 10; i++) {
                 if (list.get(2).equals("roflan" + i)) {
                     if (list.get(5).equals("roflan" + i)) {
@@ -106,11 +107,17 @@ public class Symbols extends SpriteSymbolsDecorator {
                                     winCounter += 400;
                                     System.out.println(winCounter);
                                 }
+
                             }
+
                         }
+
                     }
+
                 }
+
             }
+
             for (int i = 1; i <= 10; i++) {
                 if (list.get(1).equals("roflan" + i)) {
                     if (list.get(4).equals("roflan" + i)) {
@@ -126,11 +133,17 @@ public class Symbols extends SpriteSymbolsDecorator {
                                     winCounter += 400;
                                     System.out.println(winCounter);
                                 }
+
                             }
+
                         }
+
                     }
+
                 }
+
             }
+
             for (int i = 1; i <= 10; i++) {
                 if (list.get(0).equals("roflan" + i)) {
                     if (list.get(3).equals("roflan" + i)) {
@@ -146,11 +159,276 @@ public class Symbols extends SpriteSymbolsDecorator {
                                     winCounter += 400;
                                     System.out.println(winCounter);
                                 }
+
                             }
+
                         }
+
                     }
+
                 }
+
             }
+
+        for (int i = 1; i <= 10; i++) {
+            if (list.get(2).equals("roflan" + i)) {
+                if (list.get(4).equals("roflan" + i)) {
+                    winCounter += 50;
+                    System.out.println(winCounter);
+                    if (list.get(6).equals("roflan" + i)) {
+                        winCounter += 100;
+                        System.out.println(winCounter);
+                        if (list.get(10).equals("roflan" + i)) {
+                            winCounter += 200;
+                            System.out.println(winCounter);
+                            if (list.get(12).equals("roflan" + i)) {
+                                winCounter += 400;
+                                System.out.println(winCounter);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            if (list.get(0).equals("roflan" + i)) {
+                if (list.get(4).equals("roflan" + i)) {
+                    winCounter += 50;
+                    System.out.println(winCounter);
+                    if (list.get(8).equals("roflan" + i)) {
+                        winCounter += 100;
+                        System.out.println(winCounter);
+                        if (list.get(10).equals("roflan" + i)) {
+                            winCounter += 200;
+                            System.out.println(winCounter);
+                            if (list.get(14).equals("roflan" + i)) {
+                                winCounter += 400;
+                                System.out.println(winCounter);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            if (list.get(1).equals("roflan" + i)) {
+                if (list.get(4).equals("roflan" + i)) {
+                    winCounter += 50;
+                    System.out.println(winCounter);
+                    if (list.get(7).equals("roflan" + i)) {
+                        winCounter += 100;
+                        System.out.println(winCounter);
+                        if (list.get(9).equals("roflan" + i)) {
+                            winCounter += 200;
+                            System.out.println(winCounter);
+                            if (list.get(13).equals("roflan" + i)) {
+                                winCounter += 400;
+                                System.out.println(winCounter);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            if (list.get(2).equals("roflan" + i)) {
+                if (list.get(5).equals("roflan" + i)) {
+                    winCounter += 50;
+                    System.out.println(winCounter);
+                    if (list.get(8).equals("roflan" + i)) {
+                        winCounter += 100;
+                        System.out.println(winCounter);
+                        if (list.get(10).equals("roflan" + i)) {
+                            winCounter += 200;
+                            System.out.println(winCounter);
+                            if (list.get(12).equals("roflan" + i)) {
+                                winCounter += 400;
+                                System.out.println(winCounter);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            if (list.get(0).equals("roflan" + i)) {
+                if (list.get(3).equals("roflan" + i)) {
+                    winCounter += 50;
+                    System.out.println(winCounter);
+                    if (list.get(6).equals("roflan" + i)) {
+                        winCounter += 100;
+                        System.out.println(winCounter);
+                        if (list.get(10).equals("roflan" + i)) {
+                            winCounter += 200;
+                            System.out.println(winCounter);
+                            if (list.get(14).equals("roflan" + i)) {
+                                winCounter += 400;
+                                System.out.println(winCounter);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            if (list.get(1).equals("roflan" + i)) {
+                if (list.get(4).equals("roflan" + i)) {
+                    winCounter += 50;
+                    System.out.println(winCounter);
+                    if (list.get(7).equals("roflan" + i)) {
+                        winCounter += 100;
+                        System.out.println(winCounter);
+                        if (list.get(11).equals("roflan" + i)) {
+                            winCounter += 200;
+                            System.out.println(winCounter);
+                            if (list.get(13).equals("roflan" + i)) {
+                                winCounter += 400;
+                                System.out.println(winCounter);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            if (list.get(2).equals("roflan" + i)) {
+                if (list.get(5).equals("roflan" + i)) {
+                    winCounter += 50;
+                    System.out.println(winCounter);
+                    if (list.get(8).equals("roflan" + i)) {
+                        winCounter += 100;
+                        System.out.println(winCounter);
+                        if (list.get(10).equals("roflan" + i)) {
+                            winCounter += 200;
+                            System.out.println(winCounter);
+                            if (list.get(14).equals("roflan" + i)) {
+                                winCounter += 400;
+                                System.out.println(winCounter);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            if (list.get(0).equals("roflan" + i)) {
+                if (list.get(3).equals("roflan" + i)) {
+                    winCounter += 50;
+                    System.out.println(winCounter);
+                    if (list.get(6).equals("roflan" + i)) {
+                        winCounter += 100;
+                        System.out.println(winCounter);
+                        if (list.get(10).equals("roflan" + i)) {
+                            winCounter += 200;
+                            System.out.println(winCounter);
+                            if (list.get(12).equals("roflan" + i)) {
+                                winCounter += 400;
+                                System.out.println(winCounter);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        for (int i = 1; i <= 10; i++) {
+            if (list.get(1).equals("roflan" + i)) {
+                if (list.get(3).equals("roflan" + i)) {
+                    winCounter += 50;
+                    System.out.println(winCounter);
+                    if (list.get(7).equals("roflan" + i)) {
+                        winCounter += 100;
+                        System.out.println(winCounter);
+                        if (list.get(11).equals("roflan" + i)) {
+                            winCounter += 200;
+                            System.out.println(winCounter);
+                            if (list.get(13).equals("roflan" + i)) {
+                                winCounter += 400;
+                                System.out.println(winCounter);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+        for (int i = 1; i <= 10; i++) {
+            if (list.get(2).equals("roflan" + i)) {
+                if (list.get(4).equals("roflan" + i)) {
+                    winCounter += 50;
+                    System.out.println(winCounter);
+                    if (list.get(8).equals("roflan" + i)) {
+                        winCounter += 100;
+                        System.out.println(winCounter);
+                        if (list.get(10).equals("roflan" + i)) {
+                            winCounter += 200;
+                            System.out.println(winCounter);
+                            if (list.get(12).equals("roflan" + i)) {
+                                winCounter += 400;
+                                System.out.println(winCounter);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
         }
 
 

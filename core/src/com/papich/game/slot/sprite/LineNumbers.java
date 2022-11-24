@@ -84,7 +84,7 @@ public class LineNumbers extends SpriteSymbolsDecorator{
 
     private void addNumbers () {
 
-        this.symbolTextures = new TextureAtlas("numbers-line.tpack" );
+        this.symbolTextures = new TextureAtlas("slotAssets/numbers-line.tpack" );
         this.hashMap = new HashMap<String, List<SpriteSymbolsDecorator>>();
         this.numbers = new ArrayList<SpriteSymbolsDecorator>();
 

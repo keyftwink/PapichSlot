@@ -3,6 +3,7 @@ package com.papich.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -32,10 +33,12 @@ public class ChoiceGameScreen implements Screen {
     private TextureAtlas atlas;
     protected Skin skin;
     private final Game game;
+    Sound clicks;
 
     public ChoiceGameScreen(Game game)
     {
         super();
+        clicks = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
         this.game = game;
         atlas = new TextureAtlas("skin.atlas");
         skin = new Skin();
@@ -75,24 +78,29 @@ public class ChoiceGameScreen implements Screen {
         blackjackButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new BlackjackScreen(game));
+
             }
         });
         roflanDropButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new RoflanDropScreen(game));
             }
         });
         slotsButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new LoaderScreen(game));
             }
         });
         backButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
             }
         });

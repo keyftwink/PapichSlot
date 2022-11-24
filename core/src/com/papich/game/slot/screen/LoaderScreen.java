@@ -52,12 +52,12 @@ public class LoaderScreen extends Base2DScreen implements Screen {
         this.manager = new AssetManager ();
         this.manager.load("ruletka.png", Texture.class);
         this.manager.load("ruletka.jpg", Texture.class);
-        this.manager.load("bonus_background.jpg", Texture.class);
-        this.manager.load("badlogic.jpg", Texture.class);
+        this.manager.load("ruletka.jpg", Texture.class);
+        this.manager.load("ruletka.jpg", Texture.class);
         this.manager.load("slotAssets/roflan.png", Texture.class);
         this.manager.load("slotAssets/Symbols.tpack", TextureAtlas.class);
-        this.manager.load("numbers-line.png", Texture.class);
-        this.manager.load("numbers-line.tpack", TextureAtlas.class);
+        this.manager.load("slotAssets/numbers-line.png", Texture.class);
+        this.manager.load("slotAssets/numbers-line.tpack", TextureAtlas.class);
 
         this.loadBarTexture = new Texture("loadbar.png");
         this.loadBar        = new LoadBar( new TextureRegion(this.loadBarTexture));
@@ -91,8 +91,7 @@ public class LoaderScreen extends Base2DScreen implements Screen {
             this.loadBarProcess += MathUtils.random(0.0001f, 0.003f);
 
         }
-//
-//        this.loadBarProcess > this.loadBarWidth &&
+
         if( this.manager.update() && this.loadBarProcess > this.loadBarWidth){
             this.cadrs.isLoaded();
             this.loadBar.setWidth(this.loadBarWidth);

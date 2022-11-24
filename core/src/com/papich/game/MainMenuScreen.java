@@ -3,6 +3,7 @@ package com.papich.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -44,9 +45,12 @@ public class MainMenuScreen implements Screen {
     public TextButton exitButton;
     private final Game game;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    Sound clicks;
+
 
     public MainMenuScreen(Game game) {
         super();
+      clicks = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
         this.game = game;
         atlas = new TextureAtlas("skin.atlas");
         texture = new Texture(Gdx.files.internal("MainMenu.png"));
@@ -103,12 +107,14 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new ChoiceGameScreen(game));
             }
         });
         exitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 Gdx.app.exit();
             }
         });
@@ -138,19 +144,17 @@ public class MainMenuScreen implements Screen {
         touchPos2D.y = touchPos.y;
         batch.begin();
         batch.draw(texture, 0, 0);
-        font.draw(batch, "v 0.1.0.1", 1350, 720);
+        font.draw(batch, "v 0.9.9.8", 1350, 720);
         batch.end();
         stage.getWidth();
         stage.act();
         stage.draw();
 
         if(touchPos2D.x >  1445 - 167 && touchPos2D.x < 1450 + 160  && touchPos2D.y > 395  && touchPos2D.y < 480){
-            //если булевая переменная приняла значение true то прячем кнопку
             exitButton.setStyle(textButtonStyle2);
         }
 
         else if(touchPos2D.x > 1440 - 167 && touchPos2D.x < 1450 + 160  && touchPos2D.y > 490  && touchPos2D.y < 575){
-             //если булевая переменная приняла значение true то прячем кнопку
             playButton.setStyle(textButtonStyle2);
 
         }

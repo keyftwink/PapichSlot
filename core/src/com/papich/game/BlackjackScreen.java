@@ -28,7 +28,7 @@ import java.util.Random;
 
 
 public class BlackjackScreen implements Screen {
-
+    Sound clicks;
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     BitmapFont moneyFont;
@@ -86,6 +86,7 @@ public class BlackjackScreen implements Screen {
 
     public BlackjackScreen(Game game) {
         super();
+        clicks = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
         this.game = game;
 
         atlas = new TextureAtlas("skin.atlas");
@@ -139,6 +140,8 @@ public class BlackjackScreen implements Screen {
                 choiceTable.setVisible(false);
                 addCard(playerDeck, renderStartPos);
                 choiceTable.add(hitButton, standButton);
+                clicks.play();
+                choiceTable.removeActor(doubleButton);
                 choiceTable.bottom();
                 choiceTable.setVisible(true);
             }
@@ -147,6 +150,7 @@ public class BlackjackScreen implements Screen {
         standButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 choiceTable.setVisible(false);
                 choiceTable.removeActor(splitButton);
                 choiceTable.removeActor(doubleButton);
@@ -159,6 +163,7 @@ public class BlackjackScreen implements Screen {
         doubleButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 choiceTable.removeActor(splitButton);
                 choiceTable.removeActor(doubleButton);
                 choiceTable.bottom();
@@ -173,6 +178,7 @@ public class BlackjackScreen implements Screen {
         splitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 choiceTable.removeActor(splitButton);
                 choiceTable.bottom();
                 money -= bet;
@@ -197,6 +203,8 @@ public class BlackjackScreen implements Screen {
                         choiceTable.setVisible(false);
                         addCard(playerDecks.get(activeDeck),activeDeck==0?renderStartPos:secondRenderStartPos);
                         choiceTable.add(hitButton, standButton);
+                        clicks.play();
+                        choiceTable.removeActor(doubleButton);
                         choiceTable.bottom();
                         choiceTable.setVisible(true);
 
@@ -205,6 +213,7 @@ public class BlackjackScreen implements Screen {
                 standButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        clicks.play();
                         choiceTable.removeActor(doubleButton);
                         choiceTable.bottom();
                         activeDeckCheck();
@@ -213,6 +222,7 @@ public class BlackjackScreen implements Screen {
                 doubleButton.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        clicks.play();
                         choiceTable.removeActor(doubleButton);
                         choiceTable.bottom();
                         if(activeDeck==0) {
@@ -285,6 +295,7 @@ public class BlackjackScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 reset();
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
             }
@@ -297,6 +308,7 @@ public class BlackjackScreen implements Screen {
         makeBet1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 bet = 1000;
                 money-=1000;
                 startGame();
@@ -305,6 +317,7 @@ public class BlackjackScreen implements Screen {
         makeBet2.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 bet = 2500;
                 money -= 2500;
                 startGame();
@@ -313,6 +326,7 @@ public class BlackjackScreen implements Screen {
         makeBet3.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 bet = 5000;
                 money-=5000;
                 startGame();
@@ -321,6 +335,7 @@ public class BlackjackScreen implements Screen {
         makeBet4.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clicks.play();
                 bet = 10000;
                 money-=10000;
                 startGame();

@@ -1,10 +1,13 @@
 package com.papich.game.slot.sprite;
 
+import static jdk.nashorn.internal.objects.NativeSymbol.iterator;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Timer;
+import com.papich.game.Money;
 import com.papich.game.slot.base.SpriteTween;
 import com.papich.game.slot.decorator.SpriteSymbolsDecorator;
 import com.papich.game.slot.math.Rnd;
@@ -30,7 +33,7 @@ public class Symbols extends SpriteSymbolsDecorator {
     private TweenManager tweenManager = new TweenManager();
     private static LineNumbers lineNumbers;
     private int cellNumber;
-    static public int winCounter;
+    static public int winCounter  = Money.getMoney();
     private float startX = -0.63f;
     private float startY = -0.285f;
     private float offsetX = 0.265f;
@@ -448,6 +451,8 @@ public class Symbols extends SpriteSymbolsDecorator {
         for(Timeline timeline : this.timelines){
             timeline.update(0.8f);
         }
+
+
     }
     public void draw(SpriteBatch batch){
         for(Map.Entry<String, List<SpriteSymbolsDecorator>> entry : this.hashMap.entrySet()){

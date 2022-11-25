@@ -1,39 +1,22 @@
 package com.papich.game.slot.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.papich.game.BlackjackScreen;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.papich.game.slot.base.ActionListener;
 import com.papich.game.slot.base.Base2DScreen;
 import com.papich.game.slot.base.Font;
-import com.papich.game.slot.base.Sprite;
-import com.papich.game.slot.base.SpriteTween;
 import com.papich.game.slot.math.Rect;
 import com.papich.game.slot.sprite.Background;
 import com.papich.game.slot.sprite.ButtonStart;
 import com.papich.game.slot.sprite.LineNumbers;
 import com.papich.game.slot.sprite.Symbols;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenManager;
-import aurelienribon.tweenengine.equations.Sine;
 
 public class SlotScreen extends Base2DScreen implements ActionListener {
 
@@ -45,8 +28,7 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
     private Symbols symbols;
     private LineNumbers lineNumbers;
     private Font font;
-
-
+    private ButtonStart btnStart;
 
 
     public SlotScreen(AssetManager manager) {
@@ -70,13 +52,13 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
             this.background = new Background(new TextureRegion(this.bgTexture));
         }
 
-//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("RoflanDrop/myFont.ttf"));
-//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-//        parameter.size=5;
-//        font = generator.generateFont(parameter);
         font = new Font( "font.fnt", "font.png" );
         font.setFontSize(0.03f);
         font.setColor(207,207,164,255);
+
+        this.textureAtlas = new TextureAtlas("slotAssets/buttons_menu.tpack" );
+        this.btnStart = new ButtonStart(this.textureAtlas, this);
+
 
         LineNumbers lineNumbers = new LineNumbers(this.manager);
         this.lineNumbers = lineNumbers.getNumbers();
@@ -84,31 +66,6 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
         Symbols symbol = new Symbols(this.manager, this.lineNumbers);
         this.symbols = symbol.getSymbols();
 
-//        atlas = new TextureAtlas("buttons_menu.tpack");
-//        skin = new Skin();
-//        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("myFont.ttf"));
-//        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-//        parameter.size=30;
-//        Color color = Color.BLACK;
-//        parameter.color = color;
-//        font = generator.generateFont(parameter);
-//        font.setColor(Color.BLACK);
-//        skin.addRegions(atlas);
-//        textButtonStyle = new TextButton.TextButtonStyle();
-//        textButtonStyle.font = font;
-//        textButtonStyle.up = skin.getDrawable("button");
-//
-//        Table mainTable = new Table();
-//        mainTable.setFillParent(true);
-//        mainTable.top();
-//        TextButton startButton = new TextButton("", textButtonStyle);
-//
-//        startButton.addListener(new ClickListener(){
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//
-//            }
-//        });
     }
 
     @Override
@@ -130,7 +87,6 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-        //this.btnStart.resize(worldBounds);
         this.batch.begin();
         this.background.draw(this.batch);
         this.symbols.draw(this.batch);
@@ -141,15 +97,18 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
                 String.valueOf(Symbols.winCounter),
                 this.worldBounds.getRight() - 0.24f,
                 this.worldBounds.getTop() - 0.89f);
+
+        this.btnStart.draw(this.batch);
+
         this.batch.end();
     }
 
     @Override
     public void resize(Rect worldBounds) {
 
-
         this.background.resize(worldBounds);
         this.backgroundUp.resize(worldBounds);
+        this.btnStart.resize(worldBounds);
     }
 
     @Override
@@ -157,12 +116,13 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
         this.bgTexture.dispose();
         this.symbols.dispose();
         this.lineNumbers.dispose();
+        this.textureAtlas.dispose();
         super.dispose();
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
-        this.symbols.startTwisting();
+        this.btnStart.touchDown(touch, pointer);
         return false;
     }
 
@@ -176,6 +136,7 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer) {
+        this.btnStart.touchUp(touch, pointer);
         return super.touchUp(touch, pointer);
     }
 
@@ -187,9 +148,9 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
 
     @Override
     public void actionPerformed(Object src) {
-//        if( src == btnStart){
-//            this.symbols.startTwisting();
-//            btnStart.set
-//        }
+        if(src == this.btnStart){
+            this.symbols.startTwisting();
+            this.btnStart.setTouchable(Touchable.disabled);
+        }
     }
 }

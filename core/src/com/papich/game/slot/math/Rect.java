@@ -1,8 +1,10 @@
 package com.papich.game.slot.math;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
-public class Rect {
+public class Rect extends Actor {
 
     public final Vector2 pos = new Vector2();
     protected float halfWidth;

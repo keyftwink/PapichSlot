@@ -24,7 +24,7 @@ public class ButtonStart extends ScaledTouchUpButton {
     @Override
     public void resize(Rect worldBounds) {
         float offset_x = 0.81f;
-        float offset_y = 0.0009f;
+        float offset_y = -0.0257f;
         setBottom(worldBounds.getBottom() - offset_y);
         setRight(worldBounds.getRight() - offset_x);
     }

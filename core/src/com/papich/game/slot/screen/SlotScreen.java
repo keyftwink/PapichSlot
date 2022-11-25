@@ -112,7 +112,7 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
         this.font.draw(
                 this.batch,
                 String.valueOf(Symbols.bet),
-                this.worldBounds.getLeft() + 0.31f,
+                this.worldBounds.getLeft() + 0.33f,
                 this.worldBounds.getTop() - 0.89f);
 
         this.btnStart.draw(this.batch);

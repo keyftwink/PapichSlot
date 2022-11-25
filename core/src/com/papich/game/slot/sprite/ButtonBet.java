@@ -21,7 +21,7 @@ public class ButtonBet extends ScaledTouchUpButton {
 
     @Override
     public void resize(Rect worldBounds) {
-        float offset_x = 1.32f;
+        float offset_x = 1.29f;
         float offset_y = 0.06f;
         setBottom(worldBounds.getBottom() + offset_y);
         setRight(worldBounds.getRight() - offset_x);

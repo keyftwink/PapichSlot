@@ -3,6 +3,7 @@ package com.papich.game.slot.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -21,6 +22,8 @@ import com.papich.game.slot.sprite.ButtonStart;
 import com.papich.game.slot.sprite.LineNumbers;
 import com.papich.game.slot.sprite.Symbols;
 
+import javax.sound.midi.Soundbank;
+
 
 public class SlotScreen extends Base2DScreen implements ActionListener {
 
@@ -35,10 +38,13 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
     private ButtonStart btnStart;
     private ButtonBet btnBet;
     private ButtonBack btnBack;
+    Sound  clicks;
+
 
     public SlotScreen(AssetManager manager) {
         super();
         this.manager = manager;
+        clicks = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
     }
 
     @Override
@@ -173,22 +179,25 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
     @Override
     public void actionPerformed(Object src) {
         if(src == this.btnBack){
+            clicks.play();
             ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen((Game) Gdx.app.getApplicationListener()));
         }
         if(src == this.btnBet){
+            clicks.play();
             Symbols.bet *= 2;
             if (Symbols.bet > 1600){
+                clicks.play();
                 Symbols.bet = 50;
             }
         }
         if(src == this.btnStart){
+            clicks.play();
             if(Symbols.bet <= Symbols.winCounter) {
                 this.symbols.startTwisting();
                 this.btnStart.setTouchable(Touchable.disabled);
                 Symbols.winCounter -= Symbols.bet;
             }
             else{
-
             }
         }
 

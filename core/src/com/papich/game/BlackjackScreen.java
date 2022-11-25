@@ -51,7 +51,7 @@ public class BlackjackScreen implements Screen {
     public static boolean isCroupierReady;
     public static boolean isPlayerReady;
     public static String[] deck = new String[52];
-    public static int money = 10000;
+    public static int money = Money.getMoney();
     int frameCounter = 0;
     public static int bet;
     public static int secondBet;
@@ -297,6 +297,7 @@ public class BlackjackScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 clicks.play();
                 reset();
+                Money.setMoney(money);
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
             }
         });
@@ -308,37 +309,60 @@ public class BlackjackScreen implements Screen {
         makeBet1.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                clicks.play();
-                bet = 1000;
-                money-=1000;
-                startGame();
+                if(money>=1000) {
+                    clicks.play();
+                    bet = 1000;
+                    money -= 1000;
+                    startGame();
+                }
+                else{
+                  moneyFont.setColor(Color.RED);
+                }
             }
         });
         makeBet2.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                clicks.play();
-                bet = 2500;
-                money -= 2500;
-                startGame();
+                if(money>=2500) {
+                    moneyFont.setColor(Color.WHITE);
+                    clicks.play();
+                    bet = 2500;
+                    money -= 2500;
+                    startGame();
+                }
+                else {
+                    moneyFont.setColor(Color.RED);
+                }
             }
         });
         makeBet3.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                clicks.play();
-                bet = 5000;
-                money-=5000;
-                startGame();
+                if(money>=5000) {
+                    moneyFont.setColor(Color.WHITE);
+                    clicks.play();
+                    bet = 5000;
+                    money -= 5000;
+                    startGame();
+                }
+                else{
+                    moneyFont.setColor(Color.RED);
+                }
             }
         });
         makeBet4.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                clicks.play();
-                bet = 10000;
-                money-=10000;
-                startGame();
+                if(money>=10000) {
+                    moneyFont.setColor(Color.WHITE);
+                    clicks.play();
+                    bet = 10000;
+                    money -= 10000;
+                    startGame();
+                }
+                else {
+                    moneyFont.setColor(Color.RED);
+                }
             }
         });
 
@@ -781,4 +805,3 @@ abstract class BlackjackUtils {
         return deck;
     }
 }
-

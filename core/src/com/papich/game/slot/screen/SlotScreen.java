@@ -1,5 +1,6 @@
 package com.papich.game.slot.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,11 +9,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.papich.game.MainMenuScreen;
 import com.papich.game.slot.base.ActionListener;
 import com.papich.game.slot.base.Base2DScreen;
 import com.papich.game.slot.base.Font;
 import com.papich.game.slot.math.Rect;
 import com.papich.game.slot.sprite.Background;
+import com.papich.game.slot.sprite.ButtonBack;
+import com.papich.game.slot.sprite.ButtonBet;
 import com.papich.game.slot.sprite.ButtonStart;
 import com.papich.game.slot.sprite.LineNumbers;
 import com.papich.game.slot.sprite.Symbols;
@@ -29,7 +33,8 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
     private LineNumbers lineNumbers;
     private Font font;
     private ButtonStart btnStart;
-
+    private ButtonBet btnBet;
+    private ButtonBack btnBack;
 
     public SlotScreen(AssetManager manager) {
         super();
@@ -58,6 +63,13 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
 
         this.textureAtlas = new TextureAtlas("slotAssets/buttons_menu.tpack" );
         this.btnStart = new ButtonStart(this.textureAtlas, this);
+
+        this.textureAtlas = new TextureAtlas("slotAssets/BetButton.tpack" );
+        this.btnBet = new ButtonBet(this.textureAtlas, this);
+
+        this.textureAtlas = new TextureAtlas("slotAssets/BackButton.tpack" );
+        this.btnBack = new ButtonBack(this.textureAtlas, this);
+
 
 
         LineNumbers lineNumbers = new LineNumbers(this.manager);
@@ -95,20 +107,28 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
         this.font.draw(
                 this.batch,
                 String.valueOf(Symbols.winCounter),
-                this.worldBounds.getRight() - 0.24f,
+                this.worldBounds.getRight() - 0.31f,
+                this.worldBounds.getTop() - 0.89f);
+        this.font.draw(
+                this.batch,
+                String.valueOf(Symbols.bet),
+                this.worldBounds.getLeft() + 0.31f,
                 this.worldBounds.getTop() - 0.89f);
 
         this.btnStart.draw(this.batch);
+        this.btnBet.draw(this.batch);
+        this.btnBack.draw(this.batch);
 
         this.batch.end();
     }
 
     @Override
     public void resize(Rect worldBounds) {
-
         this.background.resize(worldBounds);
         this.backgroundUp.resize(worldBounds);
         this.btnStart.resize(worldBounds);
+        this.btnBet.resize(worldBounds);
+        this.btnBack.resize(worldBounds);
     }
 
     @Override
@@ -123,6 +143,8 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
         this.btnStart.touchDown(touch, pointer);
+        this.btnBet.touchDown(touch, pointer);
+        this.btnBack.touchDown(touch, pointer);
         return false;
     }
 
@@ -137,6 +159,8 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
     @Override
     public boolean touchUp(Vector2 touch, int pointer) {
         this.btnStart.touchUp(touch, pointer);
+        this.btnBet.touchUp(touch, pointer);
+        this.btnBack.touchUp(touch, pointer);
         return super.touchUp(touch, pointer);
     }
 
@@ -148,9 +172,25 @@ public class SlotScreen extends Base2DScreen implements ActionListener {
 
     @Override
     public void actionPerformed(Object src) {
-        if(src == this.btnStart){
-            this.symbols.startTwisting();
-            this.btnStart.setTouchable(Touchable.disabled);
+        if(src == this.btnBack){
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen((Game) Gdx.app.getApplicationListener()));
         }
+        if(src == this.btnBet){
+            Symbols.bet *= 2;
+            if (Symbols.bet > 1600){
+                Symbols.bet = 50;
+            }
+        }
+        if(src == this.btnStart){
+            if(Symbols.bet <= Symbols.winCounter) {
+                this.symbols.startTwisting();
+                this.btnStart.setTouchable(Touchable.disabled);
+                Symbols.winCounter -= Symbols.bet;
+            }
+            else{
+
+            }
+        }
+
     }
 }

@@ -68,12 +68,15 @@ public class IntroAnimation implements Screen {
         counterCadr++;
         if(counterCadr > 9)counter = "0000";
         if(counterCadr > 99)counter = "000";
-        if(counterCadr > 576){
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
+        if(counterCadr >= 576){
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen((Game) Gdx.app.getApplicationListener()));
+            sound.stop();
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            game.setScreen(new MainMenuScreen(game));
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen((Game) Gdx.app.getApplicationListener()));
+            sound.stop();
         }
+
         animation = new Texture("IntoAnimation/Cadr_" + counter + counterCadr + ".png");
         batch.begin();
         batch.draw(animation, 0 , 0);

@@ -39,6 +39,7 @@ public class Symbols extends SpriteSymbolsDecorator {
     private float offsetX = 0.265f;
     private float offsetY = 0.24f;
     private List<Timeline> timelines;
+    public static Integer bet = 50;
 
     public Symbols(AssetManager manager, LineNumbers lineNumbers){
         this.manager = manager;
@@ -88,19 +89,17 @@ public class Symbols extends SpriteSymbolsDecorator {
     }
 
     public void win() {
-
-
             for (int i = 1; i <= 10; i++) {
                 if (list.get(2).equals("roflan" + i)) {
                     if (list.get(5).equals("roflan" + i)) {
                         if (list.get(6).equals("roflan" + i)) {
-                            winCounter += 100;
+                            winCounter += bet * 1.2;
                             System.out.println(winCounter);
                             if (list.get(9).equals("roflan" + i)) {
-                                winCounter += 200;
+                                winCounter +=  bet * 1.3;
                                 System.out.println(winCounter);
                                 if (list.get(12).equals("roflan" + i)) {
-                                    winCounter += 400;
+                                    winCounter +=  bet * 1.5;
                                     System.out.println(winCounter);
                                 }
 
@@ -118,13 +117,13 @@ public class Symbols extends SpriteSymbolsDecorator {
                 if (list.get(1).equals("roflan" + i)) {
                     if (list.get(4).equals("roflan" + i)) {
                         if (list.get(7).equals("roflan" + i)) {
-                            winCounter += 100;
+                            winCounter += bet * 1.2;
                             System.out.println(winCounter);
                             if (list.get(10).equals("roflan" + i)) {
-                                winCounter += 200;
+                                winCounter += bet * 1.3;
                                 System.out.println(winCounter);
                                 if (list.get(13).equals("roflan" + i)) {
-                                    winCounter += 400;
+                                    winCounter += bet * 1.5;
                                     System.out.println(winCounter);
                                 }
 
@@ -142,13 +141,13 @@ public class Symbols extends SpriteSymbolsDecorator {
                 if (list.get(0).equals("roflan" + i)) {
                     if (list.get(3).equals("roflan" + i)) {
                         if (list.get(8).equals("roflan" + i)) {
-                            winCounter += 100;
+                            winCounter += bet * 1.2;
                             System.out.println(winCounter);
                             if (list.get(11).equals("roflan" + i)) {
-                                winCounter += 200;
+                                winCounter += bet * 1.3;
                                 System.out.println(winCounter);
                                 if (list.get(14).equals("roflan" + i)) {
-                                    winCounter += 400;
+                                    winCounter += bet * 1.5;
                                     System.out.println(winCounter);
                                 }
 
@@ -166,13 +165,13 @@ public class Symbols extends SpriteSymbolsDecorator {
             if (list.get(2).equals("roflan" + i)) {
                 if (list.get(4).equals("roflan" + i)) {
                     if (list.get(6).equals("roflan" + i)) {
-                        winCounter += 100;
+                        winCounter += bet * 1.2;
                         System.out.println(winCounter);
                         if (list.get(10).equals("roflan" + i)) {
-                            winCounter += 200;
+                            winCounter += bet * 1.3;
                             System.out.println(winCounter);
                             if (list.get(12).equals("roflan" + i)) {
-                                winCounter += 400;
+                                winCounter += bet * 1.5;
                                 System.out.println(winCounter);
                             }
 
@@ -190,13 +189,13 @@ public class Symbols extends SpriteSymbolsDecorator {
             if (list.get(0).equals("roflan" + i)) {
                 if (list.get(4).equals("roflan" + i)) {
                     if (list.get(8).equals("roflan" + i)) {
-                        winCounter += 100;
+                        winCounter += bet * 1.2;
                         System.out.println(winCounter);
                         if (list.get(10).equals("roflan" + i)) {
-                            winCounter += 200;
+                            winCounter += bet * 1.3;
                             System.out.println(winCounter);
                             if (list.get(14).equals("roflan" + i)) {
-                                winCounter += 400;
+                                winCounter += bet * 1.5;
                                 System.out.println(winCounter);
                             }
 
@@ -214,13 +213,13 @@ public class Symbols extends SpriteSymbolsDecorator {
             if (list.get(1).equals("roflan" + i)) {
                 if (list.get(4).equals("roflan" + i)) {
                     if (list.get(7).equals("roflan" + i)) {
-                        winCounter += 100;
+                        winCounter += bet * 1.2;
                         System.out.println(winCounter);
                         if (list.get(9).equals("roflan" + i)) {
-                            winCounter += 200;
+                            winCounter += bet * 1.3;
                             System.out.println(winCounter);
                             if (list.get(13).equals("roflan" + i)) {
-                                winCounter += 400;
+                                winCounter += bet * 1.5;
                                 System.out.println(winCounter);
                             }
 
@@ -238,13 +237,13 @@ public class Symbols extends SpriteSymbolsDecorator {
             if (list.get(2).equals("roflan" + i)) {
                 if (list.get(5).equals("roflan" + i)) {
                     if (list.get(8).equals("roflan" + i)) {
-                        winCounter += 100;
+                        winCounter += bet * 1.2;
                         System.out.println(winCounter);
                         if (list.get(10).equals("roflan" + i)) {
-                            winCounter += 200;
+                            winCounter += bet * 1.3;
                             System.out.println(winCounter);
                             if (list.get(12).equals("roflan" + i)) {
-                                winCounter += 400;
+                                winCounter += bet * 1.5;
                                 System.out.println(winCounter);
                             }
 
@@ -262,13 +261,13 @@ public class Symbols extends SpriteSymbolsDecorator {
             if (list.get(0).equals("roflan" + i)) {
                 if (list.get(3).equals("roflan" + i)) {
                     if (list.get(6).equals("roflan" + i)) {
-                        winCounter += 100;
+                        winCounter += bet * 1.2;
                         System.out.println(winCounter);
                         if (list.get(10).equals("roflan" + i)) {
-                            winCounter += 200;
+                            winCounter += bet * 1.3;
                             System.out.println(winCounter);
                             if (list.get(14).equals("roflan" + i)) {
-                                winCounter += 400;
+                                winCounter += bet * 1.5;
                                 System.out.println(winCounter);
                             }
 
@@ -286,13 +285,13 @@ public class Symbols extends SpriteSymbolsDecorator {
             if (list.get(1).equals("roflan" + i)) {
                 if (list.get(4).equals("roflan" + i)) {
                     if (list.get(7).equals("roflan" + i)) {
-                        winCounter += 100;
+                        winCounter += bet * 1.2;
                         System.out.println(winCounter);
                         if (list.get(11).equals("roflan" + i)) {
-                            winCounter += 200;
+                            winCounter += bet * 1.3;
                             System.out.println(winCounter);
                             if (list.get(13).equals("roflan" + i)) {
-                                winCounter += 400;
+                                winCounter += bet * 1.5;
                                 System.out.println(winCounter);
                             }
 
@@ -310,13 +309,13 @@ public class Symbols extends SpriteSymbolsDecorator {
             if (list.get(2).equals("roflan" + i)) {
                 if (list.get(5).equals("roflan" + i)) {
                     if (list.get(8).equals("roflan" + i)) {
-                        winCounter += 100;
+                        winCounter += bet * 1.2;
                         System.out.println(winCounter);
                         if (list.get(10).equals("roflan" + i)) {
-                            winCounter += 200;
+                            winCounter += bet * 1.3;
                             System.out.println(winCounter);
                             if (list.get(14).equals("roflan" + i)) {
-                                winCounter += 400;
+                                winCounter += bet * 1.6;
                                 System.out.println(winCounter);
                             }
 
@@ -334,13 +333,13 @@ public class Symbols extends SpriteSymbolsDecorator {
             if (list.get(0).equals("roflan" + i)) {
                 if (list.get(3).equals("roflan" + i)) {
                     if (list.get(6).equals("roflan" + i)) {
-                        winCounter += 100;
+                        winCounter += bet * 1.2;
                         System.out.println(winCounter);
                         if (list.get(10).equals("roflan" + i)) {
-                            winCounter += 200;
+                            winCounter += bet * 1.3;
                             System.out.println(winCounter);
                             if (list.get(12).equals("roflan" + i)) {
-                                winCounter += 400;
+                                winCounter += bet * 1.6;
                                 System.out.println(winCounter);
                             }
 
@@ -358,13 +357,13 @@ public class Symbols extends SpriteSymbolsDecorator {
             if (list.get(1).equals("roflan" + i)) {
                 if (list.get(3).equals("roflan" + i)) {
                     if (list.get(7).equals("roflan" + i)) {
-                        winCounter += 100;
+                        winCounter += bet * 1.2;
                         System.out.println(winCounter);
                         if (list.get(11).equals("roflan" + i)) {
-                            winCounter += 200;
+                            winCounter += bet * 1.3;
                             System.out.println(winCounter);
                             if (list.get(13).equals("roflan" + i)) {
-                                winCounter += 400;
+                                winCounter += bet * 1.6;
                                 System.out.println(winCounter);
                             }
 
@@ -381,13 +380,13 @@ public class Symbols extends SpriteSymbolsDecorator {
             if (list.get(2).equals("roflan" + i)) {
                 if (list.get(4).equals("roflan" + i)) {
                     if (list.get(8).equals("roflan" + i)) {
-                        winCounter += 100;
+                        winCounter += bet * 1.2;
                         System.out.println(winCounter);
                         if (list.get(10).equals("roflan" + i)) {
-                            winCounter += 200;
+                            winCounter += bet * 1.3;
                             System.out.println(winCounter);
                             if (list.get(12).equals("roflan" + i)) {
-                                winCounter += 400;
+                                winCounter += bet * 1.6;
                                 System.out.println(winCounter);
                             }
 

@@ -144,7 +144,7 @@ public class MainMenuScreen implements Screen {
         touchPos2D.y = touchPos.y;
         batch.begin();
         batch.draw(texture, 0, 0);
-        font.draw(batch, "v 0.9.9.8", 1350, 720);
+        font.draw(batch, "v 0.9.9.9", 1350, 720);
         batch.end();
         stage.getWidth();
         stage.act();

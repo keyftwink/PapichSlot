@@ -1,0 +1,12 @@
+BackButton.png
+size: 281, 179
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Back
+  rotate: false
+  xy: 0, 0
+  size: 281, 179
+  orig: 281, 179
+  offset: 0, 0
+  index: -1
